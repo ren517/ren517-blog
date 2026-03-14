@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# 切到源码目录
+set -e   # 出错立即停止
+
 cd /home/deploy/blog-source
 
-# 拉取最新代码
-git pull origin main
+echo "===== 更新代码 ====="
+git fetch origin
+git reset --hard origin/main
 
-# 构建 Hugo
-hugo --minify
+echo "===== 构建 Hugo ====="
+hugo --minify --gc
 
-# 同步到 Nginx发布目录
+echo "===== 发布网站 ====="
 rsync -av --delete public/ /var/www/blog/
 
-# 重新加载 Nginx
-sudo systemctl reload nginx
+echo "===== 部署完成 ====="
