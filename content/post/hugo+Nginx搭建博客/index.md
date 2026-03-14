@@ -486,6 +486,7 @@ GitHub仓库 → Settings → Deploy keys → Add deploy key
 ssh -T git@github.com
 ```
 可以看到  
+---
 ![图6](images/6.png)  
 
 #### 第一次提交
