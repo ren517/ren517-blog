@@ -37,7 +37,7 @@ sudo systemctl status nginx
 ```bash
 sudo systemctl enable nginx
 ```
-![1](images/1.png)
+![1](images/1.png)  
 
 
 查看是否成功
@@ -76,7 +76,7 @@ hugo new site ~/blog-source
 cd ~/blog-source
 ```
 完成后会出现以下文件  
-![2](images/2.png)
+![2](images/2.png)  
 deploy 用户将来用来自动部署 Hugo 生成的文件。
 
 运行
@@ -89,13 +89,13 @@ hugo server -D
 Hugo 默认是没有主题的，需要到 [官网](https://themes.gohugo.io/) 去下载主题。我使用的主题是 Jimmy Cai 创作的 Stack 主题。接下来的部分内容会以此主题为例。
 将主题下载完成后并解压至 themes 文件夹中，将demo 文件夹中的 content 和hugo.yaml 复制到主文件夹中，并删掉原来的 hugo.toml 和 Content/post/rich-content ，避免出现不兼容的错误。
 **注：下载下来的主题会带版本号，如我的是hugo-theme-stack-3.34.2，删除版本号，只留下hugo-theme-stack**  
-![3](images/3.png)
+![3](images/3.png)  
 
 修改 hugo.yaml 中的 theme 选项，将其修改为与主题文件夹同名。  
-![4](images/4.png)
+![4](images/4.png)  
 
 再次在命令行输入 `hugo server-D` 启动服务，若此时能看见类似下图的样式，说明此前操作无误。  
-![5](images/5.png)
+![5](images/5.png)  
 看到类似的效果就可以了，我这个是后面还改了一些配置
 
 在 config.yaml 中输入相关配置。文件各项配置解释如下，用作参考：
@@ -486,7 +486,7 @@ GitHub仓库 → Settings → Deploy keys → Add deploy key
 ssh -T git@github.com
 ```
 可以看到  
-![6](images/6.png)
+![6](images/6.png)  
 
 #### 第一次提交
 ```bash
@@ -555,7 +555,7 @@ authorized_keys  id_ed25519  id_ed25519.pub  known_hosts  known_hosts.old
 ```bash
 ssh -i ~/.ssh/id_ed25519 deploy@139.196.39.87 # 换成你的服务器公共ip
 ```
-![7](images/7.png)
+![7](images/7.png)  
 这样即为成功
 
 ### 10.更改部署脚本
