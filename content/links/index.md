@@ -1,9 +1,9 @@
 ---
-title: 友链
+title: 友情链接
 slug: links
 menu:
     main:
-        name: 友链
+        name: 友情链接
         weight: 5
         params:
             icon: link
