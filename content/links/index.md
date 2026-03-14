@@ -1,9 +1,10 @@
 ---
 title: 友链
-links: true
+slug: links
 menu:
     main:
-        weight: 4
+        name: 友链
+        weight: 5
         params:
             icon: link
 ---
