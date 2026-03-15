@@ -2,6 +2,12 @@
   {
     "category": "技术大佬",
     "links": [
+        {
+        "title": "萑澈的寒舍",
+        "description": "就是为了这点醋才包的这顿饺子 | 📧 xxx@qq.com",
+        "website": "https://hxcn.cnies.org/",
+        "image": "https://gastigado.cnies.org/d/elements/hxcn_transparent_240.png"
+      },
       {
         "title": "JerryGao's Blog",
         "description": "爱折腾的安全小白",
@@ -9,11 +15,12 @@
         "image": "https://www.jerrygao.cn/icons/icon-512.png"
       },
       {
-        "title": "萑澈的寒舍",
-        "description": "就是为了这点醋才包的这顿饺子 | 📧 xxx@qq.com",
-        "website": "https://hxcn.cnies.org/",
-        "image": "https://gastigado.cnies.org/d/elements/hxcn_transparent_240.png"
+        "title": "dmjcb个人博客",
+        "description": "九零后中年人，理线狂魔",
+        "website": "https://dmjcb.github.io/",
+        "image": "/favicon.ico"
       }
+      
     ]
   },
   {
