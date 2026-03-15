@@ -87,19 +87,25 @@ hugo server -D
 ```
 可以查看静态网页，地址通常是 localhost:1313 。如果页面显示“Page not found”，说明此前的所有配置都是正常无误的。
 
-### 配置主题  
+### 配置主题
+
 Hugo 默认是没有主题的，需要到 [官网](https://themes.gohugo.io/) 去下载主题。我使用的主题是 Jimmy Cai 创作的 Stack 主题。接下来的部分内容会以此主题为例。
-将主题下载完成后并解压至 themes 文件夹中，将demo 文件夹中的 content 和hugo.yaml 复制到主文件夹中，并删掉原来的 hugo.toml 和 Content/post/rich-content ，避免出现不兼容的错误。
-**注：下载下来的主题会带版本号，如我的是hugo-theme-stack-3.34.2，删除版本号，只留下hugo-theme-stack**  
----
-![图3](images/3.png)  
 
-修改 hugo.yaml 中的 theme 选项，将其修改为与主题文件夹同名。  
----
-![图4](images/4.png)  
+将主题下载完成后并解压至 themes 文件夹中，将 demo 文件夹中的 content 和 hugo.yaml 复制到主文件夹中，并删掉原来的 hugo.toml 和 Content/post/rich-content，避免出现不兼容的错误。
 
-再次在命令行输入 `hugo server-D` 启动服务，若此时能看见类似下图的样式，说明此前操作无误。  
+**注：下载下来的主题会带版本号，如我的是 hugo-theme-stack-3.34.2，删除版本号，只留下 hugo-theme-stack**
+
 ---
+
+![图3](images/3.png)
+
+修改 hugo.yaml 中的 theme 选项，将其修改为与主题文件夹同名。
+
+---
+
+![图4](images/4.png)
+
+再次在命令行输入 `hugo server -D` 启动服务，若此时能看见类似下图的样式，说明此前操作无误。
 ![图5](images/5.png)  
 看到类似的效果就可以了，我这个是后面还改了一些配置
 
