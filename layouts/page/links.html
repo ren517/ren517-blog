@@ -1,17 +1,39 @@
-<div style="background: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba;">
-<h4>调试信息：</h4>
+{{ $pageLinks := .Params.links }}
+{{ $dataLinks := hugo.Data.links }}
 
-<p>
-JSON 数据读取测试：
-{{ if hugo.Data.links }}
-✅ 成功抓取到文件
-{{ else }}
-❌ 没找到 data/links.json
-{{ end }}
-</p>
-
-<p>数据长度：{{ len hugo.Data.links }}</p>
-
-<pre>{{ printf "%#v" hugo.Data.links }}</pre>
-
+{{ if $pageLinks }}
+<h2>友情链接（来自页面 frontmatter）</h2>
+<div class="article-list--compact links">
+  {{ range $item := $pageLinks }}
+  <article>
+    <a href="{{ $item.website }}" target="_blank" rel="noopener noreferrer">
+      <div class="article-details">
+        <h2 class="article-title">{{ $item.title }}</h2>
+        <p>{{ $item.description }}</p>
+      </div>
+    </a>
+  </article>
+  {{ end }}
 </div>
+{{ else if $dataLinks }}
+<h2>友情链接（来自 data/links.json）</h2>
+{{ range $category := $dataLinks }}
+  <section class="links-category">
+    <h3>{{ $category.category }}</h3>
+    <div class="article-list--compact links">
+      {{ range $link := $category.links }}
+      <article>
+        <a href="{{ $link.website }}" target="_blank" rel="noopener noreferrer">
+          <div class="article-details">
+            <h2 class="article-title">{{ $link.title }}</h2>
+            <p>{{ $link.description }}</p>
+          </div>
+        </a>
+      </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+{{ else }}
+<p>未找到友链数据。请在 `content/page/links/index.md` frontmatter 中配置 `links` 或 `data/links.json`。</p>
+{{ end }}
