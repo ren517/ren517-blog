@@ -1,0 +1,29 @@
+/* ===== Live2D移动到右下角 ===== */
+
+#waifu {
+    right: 20px;
+    left: auto;
+    bottom: 0;
+    z-index: 9999;
+}
+
+#waifu-toggle {
+    right: 0;
+    left: auto;
+    margin-right: -90px;
+    margin-left: 0;
+    writing-mode: vertical-rl;
+}
+
+#waifu-toggle.waifu-toggle-active {
+    margin-right: -40px;
+}
+
+#waifu-toggle.waifu-toggle-active:hover {
+    margin-right: -20px;
+}
+
+#waifu-tool {
+    right: auto;
+    left: -15px;
+}
