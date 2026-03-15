@@ -1,0 +1,30 @@
+[
+  {
+    "category": "技术大佬",
+    "links": [
+      {
+        "title": "JerryGao's Blog",
+        "description": "爱折腾的安全小白",
+        "website": "https://www.jerrygao.cn",
+        "image": "https://www.jerrygao.cn/icons/icon-512.png"
+      },
+      {
+        "title": "萑澈的寒舍",
+        "description": "就是为了这点醋才包的这顿饺子 | 📧 xxx@qq.com",
+        "website": "https://hxcn.cnies.org/",
+        "image": "https://gastigado.cnies.org/d/elements/hxcn_transparent_240.png"
+      }
+    ]
+  },
+  {
+    "category": "工具网站",
+    "links": [
+      {
+        "title": "Hugo",
+        "description": "静态博客框架",
+        "website": "https://gohugo.io",
+        "image": "https://gohugo.io/img/hugo-logo.png"
+      }
+    ]
+  }
+]
