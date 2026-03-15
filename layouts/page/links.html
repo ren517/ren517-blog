@@ -1,6 +1,17 @@
 <div style="background: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba;">
-    <h4>调试信息：</h4>
-    <p>JSON 数据读取测试：{{ if .Site.Data.links }} ✅ 成功抓取到文件 {{ else }} ❌ 没找到 data/links.json {{ end }}</p>
-    <p>数据长度：{{ len .Site.Data.links }}</p>
-    <pre>{{ printf "%#v" .Site.Data.links }}</pre>
+<h4>调试信息：</h4>
+
+<p>
+JSON 数据读取测试：
+{{ if hugo.Data.links }}
+✅ 成功抓取到文件
+{{ else }}
+❌ 没找到 data/links.json
+{{ end }}
+</p>
+
+<p>数据长度：{{ len hugo.Data.links }}</p>
+
+<pre>{{ printf "%#v" hugo.Data.links }}</pre>
+
 </div>
