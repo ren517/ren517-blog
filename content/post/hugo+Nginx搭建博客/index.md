@@ -87,7 +87,7 @@ hugo server -D
 ```
 可以查看静态网页，地址通常是 localhost:1313 。如果页面显示“Page not found”，说明此前的所有配置都是正常无误的。
 
-### 配置主题
+### 配置主题  
 Hugo 默认是没有主题的，需要到 [官网](https://themes.gohugo.io/) 去下载主题。我使用的主题是 Jimmy Cai 创作的 Stack 主题。接下来的部分内容会以此主题为例。
 将主题下载完成后并解压至 themes 文件夹中，将demo 文件夹中的 content 和hugo.yaml 复制到主文件夹中，并删掉原来的 hugo.toml 和 Content/post/rich-content ，避免出现不兼容的错误。
 **注：下载下来的主题会带版本号，如我的是hugo-theme-stack-3.34.2，删除版本号，只留下hugo-theme-stack**  
