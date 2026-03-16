@@ -1,3 +1,20 @@
++++
+author = "ren517"
+title = "tensor"
+date = "2026-03-16"
+description = "Tensorboard的使用"
+tags = [
+    "pytorch",
+    "tensor",
+    "机器学习",
+]
+categories = [
+    "pytorch",
+    "机器学习",
+]
+series = ["Themes Guide"]
++++
+
 TensorBoard 是由 Google 开发、随 TensorFlow 一起提供的一个可视化工具，主要用来帮助你观察深度学习模型训练过程中的各种数据（比如 loss、准确率、网络结构等）。现在不仅 TensorFlow，可以配合 PyTorch 使用。同时，在论文中也被广泛使用。
 
 ### pytorch里面怎么用
