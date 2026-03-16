@@ -1,8 +1,7 @@
 +++
 author = "ren517"
-title = "tensor"
+title = "Tensorboard的使用"
 date = "2026-03-16"
-description = "Tensorboard的使用"
 tags = [
     "pytorch",
     "tensor",
