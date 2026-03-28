@@ -1,6 +1,6 @@
 +++
 author = "ren517"
-title = "tensor"
+title = "LSTN预测文本情感"
 date = "2026-03-28"
 description = "利用LSTM处理nlp分类任务"
 tags = [
