@@ -246,3 +246,6 @@ markup:
         lineNos: true
         lineNumbersInTable: true
         tabWidth: 4
+params:
+  comments:
+    enabled: true
