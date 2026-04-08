@@ -7,6 +7,7 @@ cd /home/deploy/blog-source
 echo "===== 更新代码 ====="
 git fetch origin
 git reset --hard origin/main
+git clean -fd
 
 echo "===== 构建 Hugo ====="
 hugo --minify --gc
