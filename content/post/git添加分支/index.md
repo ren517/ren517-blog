@@ -1,3 +1,20 @@
++++
+author = "ren517"
+title = "git添加分支及一些基础操作记录"
+date = "2026-04-08"
+description = "利用轻量博客工具hugo搭建自己的博客"
+tags = [
+    "git",
+    "版本控制",
+]
+categories = [
+    "教程",
+    "基础学习",
+]
+series = ["Themes Guide"]
+image = "images/image.png" 
++++
+
 鉴于最近学习了git的命令行操作，不再依赖于图形界面，所以决定将git的常用命令记录下来，顺便给博客添加temp分支。
 
 基础命令
