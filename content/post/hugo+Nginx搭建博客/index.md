@@ -1,5 +1,5 @@
 +++
-author = "任泊睿"
+author = "ren517"
 title = "从零开始搭建hugo+Nginx搭建博客"
 date = "2026-03-14"
 description = "利用轻量博客工具hugo搭建自己的博客"
