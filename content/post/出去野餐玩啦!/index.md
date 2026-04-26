@@ -19,42 +19,60 @@ series = ["Themes Guide"]
 
 先来一张全景图
 
-![图一](images/1.jpg)
+<div align="center">
+  <img src="images/1.jpg" width="50%" />
+</div>
 
 山清水秀，里面很大的面积，前面是可以围炉煮茶的地方。我没有过多停留，直奔到了后面的鱼塘，现在正值好天气，也没有夏天那么热，钓鱼是非常爽的，而且里面鱼非常多，像我这样没有任何钓鱼基础的人，也在十分钟左右上了一条大鲈鱼。
 
 而且鱼也没有咬我下的钩子，它的肚子被我钓到了，我真是新手保护期，碰到了一条笨鱼。
 
-![图二](images/2.jpg)
+<div align="center">
+  <img src="images/2.jpg" width="50%" />
+</div>
 
 玩了一会感觉非常不错，突然又来了一只可爱的布鲁斯。找了一些零食给它吃，他吃的很高兴，给我们一直摇尾巴。
 
-![图三](images/3.jpg)
+<div align="center">
+  <img src="images/3.jpg" width="50%" />
+</div>
 
 里面还有很多娱乐设施，从小孩玩的滑滑梯，秋千，还有台球，大草地等等等，我觉得完全是一个世外桃源可以完全的放松身心。
 
 我最喜欢这个吊床，真想一辈子都在这里躺平
 
-![图四](images/4.jpg)
+<div align="center">
+  <img src="images/4.jpg" width="50%" />
+</div>
 
-![图五](images/5.jpg)
+<div align="center">
+  <img src="images/5.jpg" width="50%" />
+</div>
 
 玩了一下午，肚子也饿了，准备开始烧烤。
 
 烧烤也特别容易，我本来觉得两个人去烧烤基本就是不可能的事情，两个人太麻烦了，而且我们没有汽车，也带不了那么多东西。
 但是这个农家乐里面超级方便，我只要打个空手去就完全可以了。老板会给你准备好所有需要用的，从烧烤架到煤炭，从食材到饮料，一应俱全，而且食材绝对新鲜，老板就在前台一直处理食材，现成穿烧烤串串。
 
-![图六](images/6.jpg)
+<div align="center">
+  <img src="images/6.jpg" width="50%" />
+</div>
 
 这是老板给我们准备的，真是高估我们了，我们开始也是眼睛大肚子小，感觉自己能吃完，结果发现我们根本吃不完这么多。
 
 我要开始大展我的烧烤身手了，其实我很小就会烤烧烤了，只是深藏不露而已，给对象漏了一手。
 
-![图七](images/7.jpg)
+<div align="center">
+  <img src="images/7.jpg" width="50%" />
+</div>
 
-![图八](images/8.jpg)
+<div align="center">
+  <img src="images/8.jpg" width="50%" />
+</div>
 
-![图九](images/9.jpg)
+<div align="center">
+  <img src="images/9.jpg" width="50%" />
+</div>
 
 看着就很诱人吧，我去完之后就感觉这地方真是相见恨晚，以后可以和更多朋友一起去，绝对可以让每个人都开心离去。
 
@@ -62,8 +80,12 @@ series = ["Themes Guide"]
 
 期待了几天，今天头盔就到了，因为是武汉发货的，就特别快。太让我激动了，头盔很帅，下次出门就可以帅帅的骑车了。
 
-![图十](images/10.jpg)
+<div align="center">
+  <img src="images/10.jpg" width="50%" />
+</div>
 
-![图十一](images/11.jpg)
+<div align="center">
+  <img src="images/11.jpg" width="50%" />
+</div>
 
 好了就这些，其实我日常也很无聊，就是一个无聊的人给自己找一点乐子。
