@@ -69,18 +69,32 @@ ls -la /mnt/nfs
 
 若没有报错，且看到了Ubuntu上的共享文件，就OK
 
-开发板上的共享文件夹
+如果检测到NFS没有开启，或有其他错误，请检查上一篇野火imx8m开发板开发配置指南4.1,4.2,4.3，看看是否配置正确
+
+开发板上的共享文件夹路径
 
 ```bash
 debian@lubancat:/mnt/nfs$ pwd
 /mnt/nfs
 ```
 
-Ubuntu上的共享文件夹
+若想切换到这个路径，在开发板软件里面终端输入
+
+```bash
+cd /mnt/nfs
+```
+
+Ubuntu上的共享文件夹路径
 
 ```bash
 fyj@fyj-virtual-machine:/home/frank/nfs_share$ pwd
 /home/frank/nfs_share
+```
+
+若想切换到这个路径，在vm终端输入
+
+```bash
+cd /home/frank/nfs_share
 ```
 
 ### 解决方案一（文档里的默认方法）
