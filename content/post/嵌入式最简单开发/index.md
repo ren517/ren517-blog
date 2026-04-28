@@ -61,6 +61,7 @@ sudo systemctl status nfs-kernel-server
 
 出现绿色的
 在开发板上运行active √
+**_这里的日志文件，不会和之前的命令一样直接退出，若退出按ctrl+c_**
 
 ```bash
 df -h | grep nfs
