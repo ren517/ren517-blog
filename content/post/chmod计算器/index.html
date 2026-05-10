@@ -1,0 +1,699 @@
++++
+author = "claude"
+title = "chmod计算器"
+date = "2026-04-08"
+description = "claude的 chmod 计算器, 感觉很好玩的小工具"
+tags = [
+    "linux",
+    "后端",
+]
+series = ["Themes Guide"]
++++
+
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>chmod 计算器</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0f1117;
+        --surface: #1a1d27;
+        --surface2: #22263a;
+        --border: rgba(255, 255, 255, 0.08);
+        --border2: rgba(255, 255, 255, 0.15);
+        --text: #e8eaf0;
+        --muted: #6b7280;
+        --accent: #5b8dee;
+        --accent-bg: rgba(91, 141, 238, 0.12);
+        --accent-border: rgba(91, 141, 238, 0.35);
+        --success: #34d399;
+        --warning: #f59e0b;
+        --danger: #f87171;
+        --r-color: #34d399;
+        --w-color: #f59e0b;
+        --x-color: #5b8dee;
+        --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+        --font: "Inter", system-ui, sans-serif;
+      }
+
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 40px 16px;
+      }
+
+      .app {
+        width: 100%;
+        max-width: 640px;
+      }
+
+      header {
+        margin-bottom: 32px;
+      }
+
+      header h1 {
+        font-family: var(--font-mono);
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      header h1 span.accent {
+        color: var(--accent);
+      }
+
+      header p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 16px;
+      }
+
+      .card-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 16px;
+      }
+
+      .groups {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .group-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .group-label {
+        font-size: 11px;
+        color: var(--muted);
+        font-family: var(--font-mono);
+      }
+
+      .bit-group {
+        display: flex;
+        gap: 4px;
+      }
+
+      .bit {
+        width: 56px;
+        height: 64px;
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        background: var(--surface2);
+        gap: 4px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .bit::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+
+      .bit:hover {
+        border-color: var(--border2);
+        transform: translateY(-1px);
+      }
+
+      .bit.on-r {
+        background: rgba(52, 211, 153, 0.1);
+        border-color: rgba(52, 211, 153, 0.4);
+      }
+      .bit.on-w {
+        background: rgba(245, 158, 11, 0.1);
+        border-color: rgba(245, 158, 11, 0.4);
+      }
+      .bit.on-x {
+        background: rgba(91, 141, 238, 0.1);
+        border-color: rgba(91, 141, 238, 0.4);
+      }
+
+      .bit .letter {
+        font-family: var(--font-mono);
+        font-size: 18px;
+        font-weight: 600;
+        transition: color 0.15s;
+      }
+
+      .bit.off .letter {
+        color: var(--muted);
+      }
+      .bit.on-r .letter {
+        color: var(--r-color);
+      }
+      .bit.on-w .letter {
+        color: var(--w-color);
+      }
+      .bit.on-x .letter {
+        color: var(--x-color);
+      }
+
+      .bit .val {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        transition: color 0.15s;
+      }
+      .bit.off .val {
+        color: rgba(107, 114, 128, 0.5);
+      }
+      .bit.on-r .val {
+        color: rgba(52, 211, 153, 0.6);
+      }
+      .bit.on-w .val {
+        color: rgba(245, 158, 11, 0.6);
+      }
+      .bit.on-x .val {
+        color: rgba(91, 141, 238, 0.6);
+      }
+
+      .result {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .result-num {
+        font-family: var(--font-mono);
+        font-size: 36px;
+        font-weight: 600;
+        color: var(--accent);
+        min-width: 56px;
+      }
+
+      .result-str {
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text);
+        letter-spacing: 3px;
+      }
+
+      .result-str .c-r {
+        color: var(--r-color);
+      }
+      .result-str .c-w {
+        color: var(--w-color);
+      }
+      .result-str .c-x {
+        color: var(--x-color);
+      }
+      .result-str .c-dash {
+        color: var(--muted);
+      }
+
+      .result-cmd {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--muted);
+        margin-left: auto;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: all 0.15s;
+        user-select: all;
+      }
+      .result-cmd:hover {
+        border-color: var(--accent-border);
+        color: var(--accent);
+      }
+      .result-cmd:active {
+        transform: scale(0.98);
+      }
+
+      .presets-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .preset {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .preset:hover {
+        border-color: var(--accent-border);
+        background: var(--accent-bg);
+      }
+      .preset:active {
+        transform: scale(0.98);
+      }
+
+      .preset-num {
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--accent);
+      }
+
+      .preset-str {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--muted);
+        margin: 2px 0 5px;
+      }
+
+      .preset-desc {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .ref-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      .ref-table th {
+        text-align: left;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 0 0 10px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .ref-table td {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+
+      .ref-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .ref-table td:first-child {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text);
+        width: 42%;
+        padding-right: 12px;
+      }
+
+      .ref-table td:last-child {
+        color: var(--muted);
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 1px 6px;
+        border-radius: 4px;
+        color: var(--text);
+      }
+
+      .legend {
+        display: flex;
+        gap: 16px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .legend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+      }
+
+      footer {
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 24px;
+        font-family: var(--font-mono);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1><span class="accent">chmod</span> 计算器</h1>
+        <p>点击权限位切换开关 · 点击预设快速加载 · 点击命令复制</p>
+      </header>
+
+      <div class="card">
+        <div class="card-label">权限位</div>
+        <div class="groups">
+          <div class="group-wrap">
+            <div class="bit-group" id="g0">
+              <div
+                class="bit on-r"
+                data-g="0"
+                data-p="0"
+                data-v="4"
+                data-l="r"
+                onclick="toggle(this)"
+              >
+                <span class="letter">r</span><span class="val">4</span>
+              </div>
+              <div
+                class="bit on-w"
+                data-g="0"
+                data-p="1"
+                data-v="2"
+                data-l="w"
+                onclick="toggle(this)"
+              >
+                <span class="letter">w</span><span class="val">2</span>
+              </div>
+              <div
+                class="bit on-x"
+                data-g="0"
+                data-p="2"
+                data-v="1"
+                data-l="x"
+                onclick="toggle(this)"
+              >
+                <span class="letter">x</span><span class="val">1</span>
+              </div>
+            </div>
+            <div class="group-label">owner</div>
+          </div>
+          <div class="group-wrap">
+            <div class="bit-group" id="g1">
+              <div
+                class="bit on-r"
+                data-g="1"
+                data-p="0"
+                data-v="4"
+                data-l="r"
+                onclick="toggle(this)"
+              >
+                <span class="letter">r</span><span class="val">4</span>
+              </div>
+              <div
+                class="bit off"
+                data-g="1"
+                data-p="1"
+                data-v="2"
+                data-l="w"
+                onclick="toggle(this)"
+              >
+                <span class="letter">w</span><span class="val">2</span>
+              </div>
+              <div
+                class="bit on-x"
+                data-g="1"
+                data-p="2"
+                data-v="1"
+                data-l="x"
+                onclick="toggle(this)"
+              >
+                <span class="letter">x</span><span class="val">1</span>
+              </div>
+            </div>
+            <div class="group-label">group</div>
+          </div>
+          <div class="group-wrap">
+            <div class="bit-group" id="g2">
+              <div
+                class="bit on-r"
+                data-g="2"
+                data-p="0"
+                data-v="4"
+                data-l="r"
+                onclick="toggle(this)"
+              >
+                <span class="letter">r</span><span class="val">4</span>
+              </div>
+              <div
+                class="bit off"
+                data-g="2"
+                data-p="1"
+                data-v="2"
+                data-l="w"
+                onclick="toggle(this)"
+              >
+                <span class="letter">w</span><span class="val">2</span>
+              </div>
+              <div
+                class="bit on-x"
+                data-g="2"
+                data-p="2"
+                data-v="1"
+                data-l="x"
+                onclick="toggle(this)"
+              >
+                <span class="letter">x</span><span class="val">1</span>
+              </div>
+            </div>
+            <div class="group-label">other</div>
+          </div>
+        </div>
+
+        <div class="result">
+          <span class="result-num" id="res-num">755</span>
+          <span class="result-str" id="res-str"></span>
+          <span
+            class="result-cmd"
+            id="res-cmd"
+            onclick="copyCmd()"
+            title="点击复制"
+          ></span>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <div
+              class="legend-dot"
+              style="background: rgba(52, 211, 153, 0.5)"
+            ></div>
+            r = read 读
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-dot"
+              style="background: rgba(245, 158, 11, 0.5)"
+            ></div>
+            w = write 写
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-dot"
+              style="background: rgba(91, 141, 238, 0.5)"
+            ></div>
+            x = execute 执行/进入
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">常用预设 — 点击加载</div>
+        <div class="presets-grid">
+          <div class="preset" onclick="setPreset(7, 5, 5)">
+            <div class="preset-num">755</div>
+            <div class="preset-str">rwxr-xr-x</div>
+            <div class="preset-desc">目录、可执行文件默认</div>
+          </div>
+          <div class="preset" onclick="setPreset(6, 4, 4)">
+            <div class="preset-num">644</div>
+            <div class="preset-str">rw-r--r--</div>
+            <div class="preset-desc">普通文件默认</div>
+          </div>
+          <div class="preset" onclick="setPreset(6, 0, 0)">
+            <div class="preset-num">600</div>
+            <div class="preset-str">rw-------</div>
+            <div class="preset-desc">SSH 私钥（必须）</div>
+          </div>
+          <div class="preset" onclick="setPreset(7, 0, 0)">
+            <div class="preset-num">700</div>
+            <div class="preset-str">rwx------</div>
+            <div class="preset-desc">用户私有目录</div>
+          </div>
+          <div class="preset" onclick="setPreset(7, 7, 5)">
+            <div class="preset-num">775</div>
+            <div class="preset-str">rwxrwxr-x</div>
+            <div class="preset-desc">团队共享目录</div>
+          </div>
+          <div class="preset" onclick="setPreset(7, 7, 7)">
+            <div class="preset-num">777</div>
+            <div class="preset-str">rwxrwxrwx</div>
+            <div class="preset-desc">所有人可写（危险）</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">符号模式速查</div>
+        <table class="ref-table">
+          <tr>
+            <th>命令</th>
+            <th>效果</th>
+          </tr>
+          <tr>
+            <td><code>chmod u+x file</code></td>
+            <td>给 owner 加执行权限</td>
+          </tr>
+          <tr>
+            <td><code>chmod go-w file</code></td>
+            <td>去掉 group 和 other 的写权限</td>
+          </tr>
+          <tr>
+            <td><code>chmod a+r file</code></td>
+            <td>所有人加读权限</td>
+          </tr>
+          <tr>
+            <td><code>chmod u=rwx,go=rx file</code></td>
+            <td>精确设置每组权限</td>
+          </tr>
+          <tr>
+            <td><code>chmod -R 755 /dir/</code></td>
+            <td>递归修改整个目录</td>
+          </tr>
+          <tr>
+            <td><code>chown alice file</code></td>
+            <td>改所有者为 alice</td>
+          </tr>
+          <tr>
+            <td><code>chown alice:dev file</code></td>
+            <td>改所有者和所属组</td>
+          </tr>
+        </table>
+      </div>
+
+      <footer>
+        u = owner · g = group · o = other · a = all · + 加 · - 去 · = 设为
+      </footer>
+    </div>
+
+    <script>
+      const state = [
+        [1, 1, 1],
+        [1, 0, 1],
+        [1, 0, 1],
+      ];
+      const colors = ["r", "w", "x"];
+
+      function toggle(el) {
+        const g = +el.dataset.g,
+          p = +el.dataset.p,
+          l = el.dataset.l;
+        state[g][p] = state[g][p] ? 0 : 1;
+        el.className = "bit " + (state[g][p] ? "on-" + l : "off");
+        render();
+      }
+
+      function render() {
+        const letters = ["r", "w", "x"];
+        let num = 0,
+          strHTML = "";
+        for (let g = 0; g < 3; g++) {
+          let gv = 0;
+          for (let p = 0; p < 3; p++) {
+            const on = state[g][p];
+            const l = letters[p];
+            gv += on ? [4, 2, 1][p] : 0;
+            strHTML += on
+              ? `<span class="c-${l}">${l}</span>`
+              : `<span class="c-dash">-</span>`;
+          }
+          num = num * 10 + gv;
+        }
+        document.getElementById("res-num").textContent = num;
+        document.getElementById("res-str").innerHTML = strHTML;
+        document.getElementById("res-cmd").textContent =
+          "chmod " + num + " filename";
+      }
+
+      function setPreset(o, g, ot) {
+        const vals = [o, g, ot],
+          weights = [4, 2, 1];
+        const labels = ["r", "w", "x"];
+        for (let i = 0; i < 3; i++)
+          for (let p = 0; p < 3; p++)
+            state[i][p] = vals[i] & weights[p] ? 1 : 0;
+
+        document.querySelectorAll(".bit").forEach((el) => {
+          const gi = +el.dataset.g,
+            pi = +el.dataset.p,
+            l = el.dataset.l;
+          el.className = "bit " + (state[gi][pi] ? "on-" + l : "off");
+        });
+        render();
+      }
+
+      function copyCmd() {
+        const txt =
+          "chmod " +
+          document.getElementById("res-num").textContent +
+          " filename";
+        navigator.clipboard.writeText(txt).then(() => {
+          const el = document.getElementById("res-cmd");
+          const orig = el.textContent;
+          el.textContent = "已复制 ✓";
+          setTimeout(() => (el.textContent = orig), 1500);
+        });
+      }
+
+      render();
+    </script>
+  </body>
+</html>
