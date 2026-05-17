@@ -1,6 +1,6 @@
 +++
 author = "ren517"
-title = "LSTN预测文本情感的模型评估"
+title = "LSTM预测文本情感的模型评估"
 date = "2026-03-28"
 description = "利用测试集评估LSTM模型"
 tags = [
