@@ -1,7 +1,7 @@
 +++
 author = "ren517"
 title = "esp32C3灯带项目"
-date = "2026-04-23"
+date = "2026-09-22"
 description = "该项目分为发射端和接收端，发射端利用 espc3minisuper，接收端利用 espc3 经典款，灯带利用开源项目 WLED。目的为发射端利用颜色传感器获得物理颜色，发射到接收端上，改变其颜色。"
 tags = [
     "嵌入式",
