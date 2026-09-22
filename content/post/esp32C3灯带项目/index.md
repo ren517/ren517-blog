@@ -57,9 +57,9 @@ series = ["Themes Guide"]
 
 ## 成品展示
 
-![魔法棒](./src/1.jpg)
+![魔法棒](src/1.jpg)
 
-![小猫台灯](./src/2.jpg)
+![小猫台灯](src/2.jpg)
 
 ## 总结
 
