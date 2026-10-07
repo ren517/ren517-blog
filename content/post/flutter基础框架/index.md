@@ -1,7 +1,7 @@
 +++
 author = "ren517"
 title = "flutter基础框架"
-date = "2026-10-7"
+date = "2026-10-07"
 description = "学习Flutter"
 tags = [
     "Android",
