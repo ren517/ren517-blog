@@ -7,6 +7,11 @@ tags = [
     "Android",
     "学习",
 ]
+
+categories = [
+    "学习",
+    "flutter"
+]
 series = ["Themes Guide"]
 +++
 
