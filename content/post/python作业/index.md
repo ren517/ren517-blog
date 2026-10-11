@@ -15,6 +15,8 @@ categories = [
 series = ["Themes Guide"]
 +++
 
+[源代码](https://github.com/ren517/study_test)在链接项目，homework1.py文件
+
 ### 1. 平面应力状态计算
 
 力学中，在平面应力状态下，有两个主应力 $(\sigma_1, \sigma_3)$ 作用在某一点上，则最大主应力 $\sigma_1$ 与外法线成 $\alpha$ 角的斜切面上法向应力 $\sigma_\alpha$ 和剪应力 $\tau_\alpha$ 的表达式为：
