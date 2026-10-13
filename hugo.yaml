@@ -197,12 +197,14 @@ params:
 ### See https://stack.jimmycai.com/config/menu
 ### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
 menu:
-  main:
-    - identifier: dashboard
-      name: Dashboard
-      url: /dashboard/
-      weight: 1
-
+    main:
+        - identifier: dashboard
+          name: 开发热力图
+          url: /dashboard/
+          weight: 5
+          params:
+              icon: github
+              
   social:
     - identifier: github
       name: GitHub

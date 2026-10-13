@@ -1,24 +1,23 @@
 {{ define "main" }}
 <div class="dashboard-page">
   <header class="dashboard-header">
-    <p class="dashboard-eyebrow">DEVELOPER SPACE</p>
-    <h1>开发者仪表盘</h1>
-    <p>持续记录开源贡献与技术探索。</p>
+    <p class="dashboard-eyebrow">MY DEVELOPER SPACE</p>
+    <h1>开发热力图</h1>
+    <p>记录代码贡献，展示正在探索的技术与项目。</p>
   </header>
 
   <section class="dashboard-card">
     <div class="dashboard-card-heading">
       <div>
-        <h2>GitHub Contributions</h2>
-        <p>过去一年的代码贡献记录</p>
+        <h2>GitHub 贡献记录</h2>
+        <p>过去一年的代码贡献活动</p>
       </div>
       <a
         href="https://github.com/ren517"
         target="_blank"
         rel="noopener noreferrer"
+        >我的 GitHub ↗</a
       >
-        查看 GitHub ↗
-      </a>
     </div>
 
     <div class="dashboard-graph">
@@ -31,7 +30,72 @@
       ></div>
     </div>
 
-    <p class="dashboard-note">数据由 GitHub 及第三方服务提供。</p>
+    <p class="dashboard-note">
+      贡献数据由 GitHub 及第三方服务提供，可能存在加载延迟。
+    </p>
+  </section>
+
+  <section class="projects-section">
+    <div class="section-heading">
+      <h2>我的项目</h2>
+      <p>从实际开发中积累经验</p>
+    </div>
+
+    <div class="project-grid">
+      <article class="project-card">
+        <div class="project-icon">⌘</div>
+        <h3>GitHub 博客</h3>
+        <p>
+          基于 Hugo 与 Stack 主题构建的个人技术博客，
+          记录学习过程、项目实践和技术总结。
+        </p>
+        <div class="project-tags">
+          <span>Hugo</span>
+          <span>Markdown</span>
+          <span>Nginx</span>
+        </div>
+        <a
+          href="https://github.com/ren517/ren517-blog"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-link"
+          >查看源码 ↗</a
+        >
+      </article>
+
+      <article class="project-card">
+        <div class="project-icon">⌁</div>
+        <h3>成绩查询系统</h3>
+        <p>
+          面向学校成绩查询场景的辅助工具， 探索自动化处理、数据获取与通知功能。
+        </p>
+        <div class="project-tags">
+          <span>Python</span>
+          <span>自动化</span>
+        </div>
+        <a
+          href="https://github.com/ren517/XUST-Grade-Inquiry-System"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-link"
+          >查看源码 ↗</a
+        >
+      </article>
+
+      <article class="project-card">
+        <div class="project-icon">◈</div>
+        <h3>Transformer–LSTM 预测模型</h3>
+        <p>
+          探索基于深度学习的瓦斯涌出量预测， 结合时序建模、模型评估与可视化。
+        </p>
+        <div class="project-tags">
+          <span>PyTorch</span>
+          <span>Transformer</span>
+          <span>LSTM</span>
+        </div>
+        <span class="project-status">研究与开发中</span>
+      </article>
+    </div>
   </section>
 </div>
 
@@ -57,11 +121,15 @@
     font-size: clamp(1.8rem, 5vw, 2.6rem);
   }
 
-  .dashboard-card {
-    padding: clamp(1rem, 3vw, 1.75rem);
+  .dashboard-card,
+  .project-card {
     border: 1px solid var(--card-separator-color);
     border-radius: 16px;
     background: var(--card-background);
+  }
+
+  .dashboard-card {
+    padding: clamp(1rem, 3vw, 1.75rem);
   }
 
   .dashboard-card-heading {
@@ -72,12 +140,14 @@
     margin-bottom: 1.25rem;
   }
 
-  .dashboard-card-heading h2 {
+  .dashboard-card-heading h2,
+  .section-heading h2 {
     margin: 0;
     font-size: 1.2rem;
   }
 
   .dashboard-card-heading p,
+  .section-heading p,
   .dashboard-note {
     font-size: 0.85rem;
     opacity: 0.75;
@@ -104,7 +174,103 @@
     margin-top: 1rem;
   }
 
+  .projects-section {
+    margin-top: 2.25rem;
+  }
+
+  .section-heading {
+    margin-bottom: 1rem;
+  }
+
+  .section-heading p {
+    margin-top: 0.35rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.25rem;
+    min-width: 0;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-color);
+  }
+
+  .project-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 0.9rem;
+    border-radius: 12px;
+    background: var(--accent-color);
+    color: white;
+    font-size: 1.4rem;
+  }
+
+  .project-card h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.05rem;
+  }
+
+  .project-card p {
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    opacity: 0.85;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tags span {
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+    background: var(--card-separator-color);
+    font-size: 0.75rem;
+  }
+
+  .project-link,
+  .project-status {
+    margin-top: auto;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .project-link {
+    color: var(--accent-color);
+    text-decoration: none;
+  }
+
+  .project-link:hover {
+    text-decoration: underline;
+  }
+
+  .project-status {
+    opacity: 0.7;
+  }
+
   @media (max-width: 600px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+
     .dashboard-card-heading {
       align-items: flex-start;
       flex-wrap: wrap;
@@ -116,7 +282,6 @@
   rel="stylesheet"
   href="https://unpkg.com/github-contrib-graph@3.1.1/dist/gh.css"
 />
-
 <script
   defer
   src="https://unpkg.com/github-contrib-graph@3.1.1/dist/browser.global.js"
