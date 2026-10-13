@@ -1,0 +1,1320 @@
++++
+author = "ren517"
+title = "safety-evaluation-slides"
+date = "2026-10-13"
+description = "安全系统工程上课讲解幻灯片"
+tags = [
+    "上课",
+]
+
+
+categories = [
+    "安全工程",
+]
+series = ["Themes Guide"]
++++
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEC、MES、MLS 评价法应用 —— 以煤矿综采工作面为例</title>
+    <!--
+  ════════════════════════════════════════════════════════════
+  Hugo 博客发布说明：
+  方式一（推荐）：将本文件放到 Hugo 站点 static/slides/safety-eval/index.html，
+  访问 https://你的博客/slides/safety-eval/ 即可全屏浏览；
+  在博文中用 iframe 嵌入：
+  <iframe src="/slides/safety-eval/" width="100%" height="640" style="border:0;border-radius:8px;" allowfullscreen></iframe>
+  方式二：若担心 CDN 失效，可下载 reveal.js 到 static/slides/safety-eval/reveal/，
+  并把下方三个 CDN 链接改为相对路径 dist/reveal.css、dist/theme/white.css、dist/reveal.js
+  ════════════════════════════════════════════════════════════
+-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css"
+    />
+    <style>
+      :root {
+        --primary: #0f4c81;
+        --accent: #e8590c;
+        --warn: #c92a2a;
+        --ok: #2b8a3e;
+        --ink: #24303f;
+      }
+      .reveal {
+        font-family:
+          "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
+        color: var(--ink);
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        font-family: inherit;
+        color: var(--primary);
+        text-transform: none;
+        letter-spacing: 0.02em;
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal .slide-title-bar {
+        border-left: 10px solid var(--accent);
+        padding-left: 0.5em;
+        margin-bottom: 0.5em;
+      }
+      .reveal h2 {
+        font-size: 1.35em;
+        margin-top: 0;
+      }
+      .reveal table {
+        font-size: 0.62em;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .reveal table th {
+        background: var(--primary);
+        color: #fff;
+      }
+      .reveal table th,
+      .reveal table td {
+        border: 1px solid #c8d3de;
+        padding: 0.3em 0.45em;
+        text-align: center;
+      }
+      .reveal table td.lft,
+      .reveal table th.lft {
+        text-align: left;
+      }
+      .reveal table tbody tr:nth-child(even) {
+        background: #f2f6fa;
+      }
+      .tag {
+        display: inline-block;
+        padding: 0.1em 0.6em;
+        border-radius: 1em;
+        font-size: 0.6em;
+        color: #fff;
+        vertical-align: middle;
+      }
+      .t-red {
+        background: var(--warn);
+      }
+      .t-orange {
+        background: var(--accent);
+      }
+      .t-yellow {
+        background: #e6a800;
+      }
+      .t-blue {
+        background: var(--primary);
+      }
+      .t-green {
+        background: var(--ok);
+      }
+      .hl {
+        color: var(--accent);
+        font-weight: bold;
+      }
+      .hlr {
+        color: var(--warn);
+        font-weight: bold;
+      }
+      .formula {
+        background: #eef4fa;
+        border: 1px dashed var(--primary);
+        border-radius: 8px;
+        padding: 0.35em 0.8em;
+        font-size: 1.05em;
+        color: var(--primary);
+        font-weight: bold;
+        display: inline-block;
+        margin: 0.2em 0;
+      }
+      .cols {
+        display: flex;
+        gap: 1.2em;
+        align-items: flex-start;
+      }
+      .cols > div {
+        flex: 1;
+      }
+      .flow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4em;
+        align-items: stretch;
+        justify-content: center;
+        margin-top: 0.4em;
+      }
+      .flow .step {
+        background: var(--primary);
+        color: #fff;
+        border-radius: 6px;
+        padding: 0.45em 0.55em;
+        font-size: 0.58em;
+        display: flex;
+        align-items: center;
+      }
+      .flow .arr {
+        color: var(--accent);
+        font-weight: bold;
+        font-size: 0.7em;
+        display: flex;
+        align-items: center;
+      }
+      .bar-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        margin: 0.28em 0;
+        font-size: 0.7em;
+      }
+      .bar-label {
+        width: 9.5em;
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .bar-track {
+        flex: 1;
+        background: #e9eef4;
+        border-radius: 4px;
+        overflow: hidden;
+        height: 1.15em;
+        position: relative;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 0.85em;
+        display: flex;
+        align-items: center;
+        padding-left: 0.4em;
+        white-space: nowrap;
+      }
+      .note {
+        font-size: 0.55em;
+        color: #6b7a8c;
+        margin-top: 0.4em;
+      }
+      .kbd {
+        background: #e9eef4;
+        border-radius: 4px;
+        padding: 0.05em 0.4em;
+        font-family: monospace;
+        font-size: 0.85em;
+      }
+      .reveal .footer-tip {
+        position: fixed;
+        bottom: 8px;
+        left: 16px;
+        font-size: 12px;
+        color: #9aa7b5;
+        z-index: 20;
+      }
+
+      /* ═══ 勾画工具栏 ═══ */
+      #draw-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        pointer-events: none;
+      }
+      #draw-canvas.active {
+        pointer-events: auto;
+        cursor: crosshair;
+        touch-action: none;
+      }
+      #draw-toolbar {
+        position: fixed;
+        left: 14px;
+        bottom: 34px;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dt-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 2px solid #c8d3de;
+        background: #fff;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 1px 4px rgba(15, 76, 129, 0.18);
+        transition: all 0.15s;
+      }
+      .dt-btn:hover {
+        border-color: var(--primary);
+        transform: translateY(-1px);
+      }
+      #draw-toggle.on {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      #draw-panel {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        background: #fff;
+        border: 1px solid #c8d3de;
+        border-radius: 20px;
+        padding: 4px 8px;
+        box-shadow: 0 1px 6px rgba(15, 76, 129, 0.2);
+      }
+      #draw-toolbar.open #draw-panel {
+        display: flex;
+      }
+      .dt-color {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        outline: 1px solid #c8d3de;
+        cursor: pointer;
+        padding: 0;
+      }
+      .dt-color.sel {
+        outline: 2px solid var(--primary);
+        transform: scale(1.2);
+      }
+      .dt-mini {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        color: var(--primary);
+        cursor: pointer;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .dt-mini:hover {
+        background: #eef4fa;
+        border-radius: 6px;
+      }
+      .dt-sep {
+        width: 1px;
+        height: 18px;
+        background: #dde5ed;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1 封面 -->
+        <section>
+          <h1 style="font-size: 1.6em; margin-top: 1.2em">
+            生产作业条件安全评价方法应用
+          </h1>
+          <h3 style="color: var(--accent)">LEC 法 · MES 法 · MLS 法</h3>
+          <p style="margin-top: 1em">
+            —— 以<strong>煤矿综采工作面回采工艺</strong>为例 ——
+          </p>
+          <p class="note" style="margin-top: 2.5em">
+            安全工程本硕 2401 班 · 课堂分组汇报
+          </p>
+          <p class="note">操作提示：← → 方向键 / 空格 翻页，右下角可全屏</p>
+        </section>
+
+        <!-- 2 任务与框架 -->
+        <section>
+          <div class="slide-title-bar"><h2>任务回顾与汇报框架</h2></div>
+          <p>
+            <span class="hl">课堂任务：</span
+            >分组选择熟悉的生产工艺过程（案例），应用
+            <strong>LEC、MES 及 MLS 评价法</strong>进行安全评价。
+          </p>
+          <table style="margin-top: 0.5em">
+            <thead>
+              <tr>
+                <th style="width: 18%">环节</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>① 案例选择</td>
+                <td class="lft">
+                  煤矿综采工作面回采工艺（熟悉工艺流程，资料充分）
+                </td>
+              </tr>
+              <tr>
+                <td>② 危险辨识</td>
+                <td class="lft">辨识危险有害因素，划定 3 个典型评价单元</td>
+              </tr>
+              <tr>
+                <td>③ 三法评价</td>
+                <td class="lft">LEC → MES → MLS 逐一取值、计算、分级</td>
+              </tr>
+              <tr>
+                <td>④ 对比讨论</td>
+                <td class="lft">三种方法的结果对比、适用性分析</td>
+              </tr>
+              <tr>
+                <td>⑤ 管控建议</td>
+                <td class="lft">按评价结果提出风险分级管控措施</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 3 案例背景 -->
+        <section>
+          <div class="slide-title-bar">
+            <h2>案例背景：综采工作面生产工艺流程</h2>
+          </div>
+          <div class="flow">
+            <div class="step">采煤机割煤</div>
+            <div class="arr">▶</div>
+            <div class="step">液压支架移架<br />（支护顶板）</div>
+            <div class="arr">▶</div>
+            <div class="step">刮板输送机<br />推溜运煤</div>
+            <div class="arr">▶</div>
+            <div class="step">转载机 / 破碎机</div>
+            <div class="arr">▶</div>
+            <div class="step">带式输送机<br />外运</div>
+            <div class="arr">▶</div>
+            <div class="step">通风 / 瓦斯<br />检查并行</div>
+          </div>
+          <table style="margin-top: 0.7em">
+            <thead>
+              <tr>
+                <th style="width: 30%">条件设定</th>
+                <th class="lft">说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>工作面条件</td>
+                <td class="lft">
+                  高瓦斯矿井，煤层有煤尘爆炸危险性，顶板为中等稳定复合顶板
+                </td>
+              </tr>
+              <tr>
+                <td>作业制度</td>
+                <td class="lft">
+                  "三八制"作业，采煤班每班下井作业约 8 h，逐日暴露
+                </td>
+              </tr>
+              <tr>
+                <td>评价单元</td>
+                <td class="lft">
+                  <strong>U1</strong> 瓦斯超限条件下作业　<strong>U2</strong>
+                  端头/超前支护作业　<strong>U3</strong>
+                  转载点煤尘作业（爆炸+尘肺）
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 4 危险有害因素辨识 -->
+        <section>
+          <div class="slide-title-bar"><h2>危险有害因素辨识</h2></div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 14%">类别</th>
+                <th class="lft">主要危险有害因素</th>
+                <th class="lft">可能导致的事故</th>
+                <th style="width: 16%">是否列入评价</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>瓦斯</td>
+                <td class="lft">上隅角及回风侧瓦斯积聚、监测失效、超限作业</td>
+                <td class="lft">瓦斯爆炸、窒息</td>
+                <td><span class="tag t-red">U1 评价</span></td>
+              </tr>
+              <tr>
+                <td>顶板</td>
+                <td class="lft">复合顶板离层、端头支护不及时、初撑力不足</td>
+                <td class="lft">冒顶片帮、伤亡</td>
+                <td><span class="tag t-orange">U2 评价</span></td>
+              </tr>
+              <tr>
+                <td>煤尘</td>
+                <td class="lft">割煤/转载点产尘，喷雾降尘失效；长期接尘</td>
+                <td class="lft">煤尘爆炸、尘肺病</td>
+                <td><span class="tag t-yellow">U3 评价</span></td>
+              </tr>
+              <tr>
+                <td>机电运输</td>
+                <td class="lft">设备失爆、刮板机伤人、带式输送机摩擦起火</td>
+                <td class="lft">触电、火灾、运输事故</td>
+                <td>本次不展开</td>
+              </tr>
+              <tr>
+                <td>其他</td>
+                <td class="lft">水文异常、外因火灾、放炮作业</td>
+                <td class="lft">水害、火灾、放炮事故</td>
+                <td>本次不展开</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="note">
+            依据 GB/T
+            13861《生产过程危险和有害因素分类与代码》及《煤矿安全规程》相关条款辨识。
+          </p>
+        </section>
+
+        <!-- 5 LEC 原理 -->
+        <section>
+          <div class="slide-title-bar">
+            <h2>方法一：LEC 作业条件危险性评价法</h2>
+          </div>
+          <div class="cols">
+            <div>
+              <p>
+                Graham–Kinney 法，<span class="formula">D = L × E × C</span>
+              </p>
+              <ul style="font-size: 0.75em">
+                <li><strong>L</strong> — 事故发生的可能性</li>
+                <li><strong>E</strong> — 暴露于危险环境的频繁程度</li>
+                <li><strong>C</strong> — 发生事故产生的后果</li>
+                <li><strong>D</strong> — 危险性分值</li>
+              </ul>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>D 分值</th>
+                    <th>危险程度</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>&gt; 320</td>
+                    <td>
+                      <span class="tag t-red">极其危险</span> 不能继续作业
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>160 ~ 320</td>
+                    <td>
+                      <span class="tag t-orange">高度危险</span> 需立即整改
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>70 ~ 160</td>
+                    <td><span class="tag t-yellow">显著危险</span> 需要整改</td>
+                  </tr>
+                  <tr>
+                    <td>20 ~ 70</td>
+                    <td><span class="tag t-blue">一般危险</span> 需要注意</td>
+                  </tr>
+                  <tr>
+                    <td>&lt; 20</td>
+                    <td><span class="tag t-green">稍有危险</span> 可以接受</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="note">
+            特点：简单易行、考虑可能性—暴露—后果三要素；但取值依赖经验，未考虑控制措施状态。
+          </p>
+        </section>
+
+        <!-- 6 LEC 应用 -->
+        <section>
+          <div class="slide-title-bar"><h2>LEC 法评价过程与结果</h2></div>
+          <table>
+            <thead>
+              <tr>
+                <th>评价单元</th>
+                <th>L 取值及理由</th>
+                <th>E 取值</th>
+                <th>C 取值及理由</th>
+                <th>D = L·E·C</th>
+                <th>等级</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>U1</strong> 瓦斯超限作业</td>
+                <td class="lft">
+                  L=3 可以发生（超限后未撤人仍冒险作业的情形可能出现）
+                </td>
+                <td>6（每天工作时间暴露）</td>
+                <td class="lft">C=40 多人死亡（瓦斯爆炸）</td>
+                <td class="hlr">3×6×40 = <strong>720</strong></td>
+                <td><span class="tag t-red">极其危险</span></td>
+              </tr>
+              <tr>
+                <td><strong>U2</strong> 端头支护作业</td>
+                <td class="lft">
+                  L=6 相当可能（复合顶板离层冒落频发，同类事故多）
+                </td>
+                <td>6（每天工作时间暴露）</td>
+                <td class="lft">C=7 严重伤害（冒顶伤人）</td>
+                <td class="hlr">6×6×7 = <strong>252</strong></td>
+                <td><span class="tag t-orange">高度危险</span></td>
+              </tr>
+              <tr>
+                <td><strong>U3</strong> 煤尘作业</td>
+                <td class="lft">
+                  L=1 完全意外、很少可能（有防爆措施，爆炸概率低）
+                </td>
+                <td>6（每天工作时间暴露）</td>
+                <td class="lft">C=15 一人死亡或多人重伤</td>
+                <td class="hlr">1×6×15 = <strong>90</strong></td>
+                <td><span class="tag t-yellow">显著危险</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 0.5em; font-size: 0.75em">
+            <span class="hl">结论：</span>U1
+            瓦斯超限作业为<strong>首要风险</strong>，必须立即停止作业、撤离人员并整改；U2
+            限期整改；U3 需要整改并关注职业病风险。
+          </p>
+          <p class="note">
+            L、E、C
+            取值准则参照《安全系统工程》教材附表（L：0.1~10；E：0.5~10；C：1~100）。
+          </p>
+        </section>
+
+        <!-- 7 MES 原理 -->
+        <section>
+          <div class="slide-title-bar">
+            <h2>方法二：MES 作业条件风险程度评价法</h2>
+          </div>
+          <div class="cols">
+            <div>
+              <p>
+                LEC 的改进，引入<span class="hl">控制措施状态 M</span>：<span
+                  class="formula"
+                  >R = M × E × S</span
+                >
+              </p>
+              <ul style="font-size: 0.72em">
+                <li>
+                  <strong>M</strong> — 控制措施状态：<strong>5</strong>
+                  无措施／危害不能被发现；<strong>3</strong>
+                  有措施但未有效执行／不易被发现；<strong>1</strong>
+                  有有效措施／能及时发现
+                </li>
+                <li>
+                  <strong>E</strong> — 暴露频繁程度：<strong>10</strong>
+                  连续暴露；<strong>6</strong> 每天工作时间暴露；<strong
+                    >3</strong
+                  >
+                  每周一次；<strong>2</strong> 每月一次；<strong>1</strong>
+                  每年几次
+                </li>
+                <li>
+                  <strong>S</strong> — 事故后果：<strong>10</strong>
+                  多人死亡；<strong>8</strong> 一人死亡；<strong>4</strong>
+                  永久失能（含职业病）；<strong>2</strong>
+                  需医院治疗、缺工；<strong>1</strong> 轻微、仅需急救
+                </li>
+              </ul>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>R = M·E·S</th>
+                    <th>风险程度（等级）</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>&gt; 180</td>
+                    <td><span class="tag t-red">重大风险</span>（1 级）</td>
+                  </tr>
+                  <tr>
+                    <td>90 ~ 150</td>
+                    <td><span class="tag t-orange">较大风险</span>（2 级）</td>
+                  </tr>
+                  <tr>
+                    <td>50 ~ 80</td>
+                    <td><span class="tag t-yellow">一般风险</span>（3 级）</td>
+                  </tr>
+                  <tr>
+                    <td>20 ~ 48</td>
+                    <td><span class="tag t-blue">低风险</span>（4 级）</td>
+                  </tr>
+                  <tr>
+                    <td>≤ 18</td>
+                    <td><span class="tag t-green">轻微风险</span>（5 级）</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="note">
+            取值准则参照应急管理部双重预防机制建设指南附录（MES
+            分级为准：&gt;180 / 90-150 / 50-80 / 20-48 / ≤18）。
+          </p>
+        </section>
+
+        <!-- 8 MES 应用 -->
+        <section>
+          <div class="slide-title-bar"><h2>MES 法评价过程与结果</h2></div>
+          <table>
+            <thead>
+              <tr>
+                <th>评价单元</th>
+                <th>M 取值及理由</th>
+                <th>E 取值</th>
+                <th>S 取值及理由</th>
+                <th>R = M·E·S</th>
+                <th>等级</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>U1</strong> 瓦斯超限作业</td>
+                <td class="lft">
+                  M=5 超限作业时监控与撤人措施实际失效，等同无控制措施
+                </td>
+                <td>6</td>
+                <td class="lft">S=10 多人死亡</td>
+                <td class="hlr">5×6×10 = <strong>300</strong></td>
+                <td><span class="tag t-red">重大风险 1级</span></td>
+              </tr>
+              <tr>
+                <td><strong>U2</strong> 端头支护作业</td>
+                <td class="lft">
+                  M=3 有支护措施但存在执行不到位、离层不易被发现
+                </td>
+                <td>6</td>
+                <td class="lft">S=8 一人死亡</td>
+                <td class="hlr">3×6×8 = <strong>144</strong></td>
+                <td><span class="tag t-orange">较大风险 2级</span></td>
+              </tr>
+              <tr>
+                <td><strong>U3</strong> 煤尘作业</td>
+                <td class="lft">M=1 有内外喷雾、隔爆水袋等有效降尘隔爆措施</td>
+                <td>6</td>
+                <td class="lft">S=4 永久失能（尘肺）</td>
+                <td class="hlr">1×6×4 = <strong>24</strong></td>
+                <td><span class="tag t-blue">低风险 4级</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 0.5em; font-size: 0.75em">
+            <span class="hl">说明：</span>MES 法因考虑了<span class="hl"
+              >控制措施状态 M</span
+            >，U3 煤尘作业在"措施有效"前提下风险明显低于 LEC
+            法结论，体现了<b>对现场管控水平的敏感度</b>。
+          </p>
+        </section>
+
+        <!-- 9 MLS 原理 -->
+        <section>
+          <div class="slide-title-bar">
+            <h2>方法三：MLS 评价法（多因子改进）</h2>
+          </div>
+          <p>
+            由中国地质大学马孝春博士提出，是 LEC / MES 的进一步改进，<span
+              class="hl"
+              >可对多个危险因素叠加计算</span
+            >，并将后果细化为四类损失之和：
+          </p>
+          <p style="text-align: center">
+            <span class="formula" style="font-size: 1.1em"
+              >R = Σ<sub>i=1..n</sub> M<sub>i</sub> · L<sub>i</sub> · ( S<sub
+                >i1</sub
+              >
+              + S<sub>i2</sub> + S<sub>i3</sub> + S<sub>i4</sub> )</span
+            >
+          </p>
+          <table style="font-size: 0.68em">
+            <thead>
+              <tr>
+                <th style="width: 16%">参数</th>
+                <th class="lft">含义与取值方法</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>n</td>
+                <td class="lft">
+                  评价单元内危险因素个数（本次每单元取主导危险因素 n=1）
+                </td>
+              </tr>
+              <tr>
+                <td>M<sub>i</sub></td>
+                <td class="lft">
+                  第 i 个危险因素的控制与监测措施状态，M =
+                  M<sub>1</sub>（控制）+ M<sub>2</sub>（监测），取值 1~10
+                </td>
+              </tr>
+              <tr>
+                <td>L<sub>i</sub></td>
+                <td class="lft">
+                  事故发生频率，L = 365 ÷ 事故平均发生间隔（天）
+                </td>
+              </tr>
+              <tr>
+                <td>S<sub>i1</sub></td>
+                <td class="lft">一次性人员伤亡损失</td>
+              </tr>
+              <tr>
+                <td>S<sub>i2</sub></td>
+                <td class="lft">
+                  职业病损失（<span class="hl">即使不发生事故也存在</span
+                  >，按一年治疗费计）
+                </td>
+              </tr>
+              <tr>
+                <td>S<sub>i3</sub> / S<sub>i4</sub></td>
+                <td class="lft">
+                  财产损失 / 环境污染与破坏损失；S 合计按
+                  <strong>每 10 万元 = 1 个单位</strong> 折算
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="note">
+            特点：后果同时计入人员伤亡、职业病、财产与环境四类损失，兼顾"一次性事故后果"与"长期累积影响"，结果用于风险排序与优先管控。
+          </p>
+        </section>
+
+        <!-- 10 MLS 应用 -->
+        <section>
+          <div class="slide-title-bar"><h2>MLS 法评价过程与结果</h2></div>
+          <table style="font-size: 0.66em">
+            <thead>
+              <tr>
+                <th>单元</th>
+                <th>M（控制+监测）</th>
+                <th>L = 365/间隔天数</th>
+                <th class="lft">S 各类损失（万元）</th>
+                <th>S 合计÷10</th>
+                <th>R = M·L·S</th>
+                <th>排序</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>U1</strong> 瓦斯爆炸</td>
+                <td>5（控制 3 + 监测 2）</td>
+                <td>
+                  365 ÷ 730 = <strong>0.5</strong>（同类事故约 2 年 1 起）
+                </td>
+                <td class="lft">伤亡 300 + 职业病 20 + 财产 500 + 环境 10</td>
+                <td>83</td>
+                <td class="hlr">5×0.5×83 = <strong>207.5</strong></td>
+                <td>① 最高</td>
+              </tr>
+              <tr>
+                <td><strong>U2</strong> 顶板冒落</td>
+                <td>3（控制 2 + 监测 1）</td>
+                <td>365 ÷ 120 ≈ <strong>3</strong>（约 4 个月 1 起冒顶）</td>
+                <td class="lft">伤亡 100 + 职业病 0 + 财产 20 + 环境 0</td>
+                <td>12</td>
+                <td class="hlr">3×3×12 = <strong>108</strong></td>
+                <td>② 次之</td>
+              </tr>
+              <tr>
+                <td><strong>U3</strong> 煤尘（爆炸+尘肺）</td>
+                <td>3（控制 2 + 监测 1）</td>
+                <td>365 ÷ 365 = <strong>1</strong></td>
+                <td class="lft">伤亡 50 + 尘肺治疗 5/年 + 财产 10 + 环境 0</td>
+                <td>6.5</td>
+                <td class="hlr">3×1×6.5 = <strong>19.5</strong></td>
+                <td>③ 最低</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 0.4em; font-size: 0.75em">
+            <span class="hl">结论：</span>R 值排序
+            <strong>U1 (207.5) &gt; U2 (108) &gt; U3 (19.5)</strong>，与 LEC /
+            MES 的管控优先级一致；MLS 额外揭示了 U3 的<span class="hl"
+              >尘肺职业病长期损失</span
+            >——即使不发生事故，该项损失也在持续发生。
+          </p>
+        </section>
+
+        <!-- 11 对比 -->
+        <section>
+          <div class="slide-title-bar"><h2>三种方法评价结果对比</h2></div>
+          <div style="font-size: 0.75em">
+            <p style="margin-bottom: 0.3em"><strong>LEC（D 值）</strong></p>
+            <div class="bar-row">
+              <div class="bar-label">U1 瓦斯</div>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 96%; background: var(--warn)"
+                >
+                  720 · 极其危险
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">U2 顶板</div>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 34%; background: var(--accent)"
+                >
+                  252 · 高度危险
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">U3 煤尘</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 12%; background: #e6a800">
+                  90 · 显著危险
+                </div>
+              </div>
+            </div>
+            <p style="margin: 0.4em 0 0.3em"><strong>MES（R 值）</strong></p>
+            <div class="bar-row">
+              <div class="bar-label">U1 瓦斯</div>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 96%; background: var(--warn)"
+                >
+                  300 · 重大风险
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">U2 顶板</div>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 46%; background: var(--accent)"
+                >
+                  144 · 较大风险
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">U3 煤尘</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 8%; background: var(--ok)">
+                  24 · 低风险
+                </div>
+              </div>
+            </div>
+            <p style="margin: 0.4em 0 0.3em"><strong>MLS（R 值）</strong></p>
+            <div class="bar-row">
+              <div class="bar-label">U1 瓦斯</div>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 70%; background: var(--warn)"
+                >
+                  207.5
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">U2 顶板</div>
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  style="width: 36%; background: var(--accent)"
+                >
+                  108
+                </div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">U3 煤尘</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 7%; background: var(--ok)">
+                  19.5
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="note">
+            注：三种方法量纲不同，柱长仅在同一方法内比较；核心看排序与分级是否一致。
+          </p>
+        </section>
+
+        <!-- 12 讨论 -->
+        <section>
+          <div class="slide-title-bar"><h2>结果讨论：三种方法的异同</h2></div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 14%">方法</th>
+                <th class="lft">考虑因素</th>
+                <th class="lft">优点</th>
+                <th class="lft">局限</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>LEC</strong></td>
+                <td class="lft">可能性 L、暴露 E、后果 C</td>
+                <td class="lft">简单直观，半定量经典方法</td>
+                <td class="lft">未考虑控制措施状态；取值主观性大</td>
+              </tr>
+              <tr>
+                <td><strong>MES</strong></td>
+                <td class="lft">M、E、S（引入控制措施状态）</td>
+                <td class="lft">反映现场管控水平，分级与双重预防机制衔接</td>
+                <td class="lft">后果仅按人身伤害分档，不含财产/环境</td>
+              </tr>
+              <tr>
+                <td><strong>MLS</strong></td>
+                <td class="lft">M、L、四类损失（伤亡/职业病/财产/环境）</td>
+                <td class="lft">
+                  多因素叠加；计入职业病与环境长期损失，最贴近真实后果
+                </td>
+                <td class="lft">需事故频率与损失金额数据，取值工作量大</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 0.5em; font-size: 0.8em">
+            <span class="hl">共同结论：</span
+            >三种方法对风险排序完全一致——<strong
+              >U1 瓦斯 &gt; U2 顶板 &gt; U3 煤尘</strong
+            >，验证了结果的稳健性；差异体现在 U3 煤尘：LEC 定为"显著"、MES
+            因措施有效降为"低风险"、MLS 揭示其尘肺长期损失，提示评价结论要<span
+              class="hl"
+              >结合方法特点解读</span
+            >。
+          </p>
+        </section>
+
+        <!-- 13 管控措施 -->
+        <section>
+          <div class="slide-title-bar"><h2>风险分级管控措施建议</h2></div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20%">单元 / 等级</th>
+                <th class="lft">管控措施</th>
+                <th style="width: 18%">管控层级</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>U1 瓦斯</strong> <span class="tag t-red">重大</span>
+                </td>
+                <td class="lft">
+                  超限即停工撤人；强化 KJ
+                  监测系统维护与校验；上隅角埋管抽采、均压通风；严格瓦斯巡回检查与"一炮三检""三人连锁"制度
+                </td>
+                <td>矿级（红线管控）</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>U2 顶板</strong>
+                  <span class="tag t-orange">较大</span>
+                </td>
+                <td class="lft">
+                  端头/超前支护加密并保证初撑力；矿压监测（离层仪）实时预警；敲帮问顶制度；复合顶板注浆加固
+                </td>
+                <td>区队级</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>U3 煤尘</strong>
+                  <span class="tag t-yellow">低/一般</span>
+                </td>
+                <td class="lft">
+                  内外喷雾+冲刷巷帮+隔爆水袋定期检查；个体防护（防尘口罩）；接尘人员定期职业健康体检（针对尘肺长期风险）
+                </td>
+                <td>班组级</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="note">
+            按"风险等级越高、管控层级越高"的原则落实分级管控，形成隐患排查治理闭环（双重预防机制）。
+          </p>
+        </section>
+
+        <!-- 14 结论 -->
+        <section>
+          <div class="slide-title-bar"><h2>结论与体会</h2></div>
+          <ul style="font-size: 0.85em; line-height: 1.6">
+            <li>
+              以综采工作面为案例完成了
+              <strong>LEC、MES、MLS</strong>
+              三种半定量评价法的完整应用，风险排序一致：<span class="hlr"
+                >瓦斯 &gt; 顶板 &gt; 煤尘</span
+              >。
+            </li>
+            <li>
+              <strong>MES</strong> 引入控制措施状态
+              M，结论更贴合现场管控实际；<strong>MLS</strong>
+              计入职业病、财产与环境损失，对"不发生事故也存在"的尘肺风险尤其有揭示意义。
+            </li>
+            <li>
+              体会：半定量方法取值依赖经验与数据，工程实践中宜<span class="hl"
+                >多方法交叉验证</span
+              >，并随管控措施动态更新评价结果。
+            </li>
+          </ul>
+          <table style="font-size: 0.6em; margin-top: 0.6em">
+            <thead>
+              <tr>
+                <th>主要依据</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="lft">
+                  《安全系统工程》教材（LEC/MES/MLS
+                  方法章节）；应急管理部及各省《企业安全生产风险分级管控与隐患排查治理双重预防机制建设指南》附录取值准则；《煤矿安全规程》；MLS
+                  法原始文献（马孝春，中国地质大学）
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 15 结束 -->
+        <section>
+          <h1 style="margin-top: 1.5em">谢谢观看</h1>
+          <h3 style="color: var(--accent)">Q &amp; A · 欢迎老师和同学提问</h3>
+          <p class="note" style="margin-top: 2em">
+            小组成员分工：危险辨识 / 三法计算 / 汇报答辩（可按小组实际填写）
+          </p>
+        </section>
+      </div>
+    </div>
+    <div class="footer-tip">← → 翻页 · F 全屏 · O 总览 · <b>D</b> 勾画</div>
+
+    <!-- 勾画工具栏 -->
+    <canvas id="draw-canvas"></canvas>
+    <div id="draw-toolbar">
+      <button id="draw-toggle" class="dt-btn" title="勾画模式（快捷键 D）">
+        <svg viewBox="0 0 24 24" width="19" height="19">
+          <path
+            fill="currentColor"
+            d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+          />
+        </svg>
+      </button>
+      <div id="draw-panel">
+        <button
+          class="dt-color sel"
+          data-c="#e03131"
+          style="background: #e03131"
+          title="红色"
+        ></button>
+        <button
+          class="dt-color"
+          data-c="#1971c2"
+          style="background: #1971c2"
+          title="蓝色"
+        ></button>
+        <button
+          class="dt-color"
+          data-c="#f08c00"
+          style="background: #f08c00"
+          title="橙色"
+        ></button>
+        <button
+          class="dt-color"
+          data-c="#24303f"
+          style="background: #24303f"
+          title="黑色"
+        ></button>
+        <div class="dt-sep"></div>
+        <button
+          class="dt-mini"
+          id="draw-eraser"
+          title="橡皮擦（点击/划过删除线条）"
+        >
+          ⌫
+        </button>
+        <button class="dt-mini" id="draw-undo" title="撤销上一笔">↶</button>
+        <button class="dt-mini" id="draw-clear" title="清空本页勾画">🗑</button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        width: 1100,
+        height: 700,
+        margin: 0.06,
+        keyboard: true,
+      });
+
+      /* ═══════════ 勾画（画笔标注）功能 ═══════════ */
+      (function () {
+        var canvas = document.getElementById("draw-canvas");
+        var ctx = canvas.getContext("2d");
+        var toolbar = document.getElementById("draw-toolbar");
+        var toggleBtn = document.getElementById("draw-toggle");
+        var eraserBtn = document.getElementById("draw-eraser");
+
+        var mode = "off"; // off | pen | eraser
+        var color = "#e03131";
+        var lineWidth = 3;
+        var drawing = false;
+        var curStroke = null;
+        var strokes = {}; // { slideKey: [ {color, w, points:[[x,y],...]}, ... ] }
+
+        function slideKey() {
+          var i = Reveal.getIndices();
+          return i.h + "-" + i.v;
+        }
+        function curList() {
+          var k = slideKey();
+          if (!strokes[k]) strokes[k] = [];
+          return strokes[k];
+        }
+
+        function resize() {
+          var dpr = window.devicePixelRatio || 1;
+          canvas.width = window.innerWidth * dpr;
+          canvas.height = window.innerHeight * dpr;
+          canvas.style.width = window.innerWidth + "px";
+          canvas.style.height = window.innerHeight + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          redraw();
+        }
+
+        function drawStroke(s) {
+          if (s.points.length < 1) return;
+          ctx.strokeStyle = s.color;
+          ctx.lineWidth = s.w;
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+          ctx.beginPath();
+          ctx.moveTo(s.points[0][0], s.points[0][1]);
+          if (s.points.length === 1) {
+            ctx.lineTo(s.points[0][0] + 0.01, s.points[0][1]);
+          }
+          for (var j = 1; j < s.points.length; j++)
+            ctx.lineTo(s.points[j][0], s.points[j][1]);
+          ctx.stroke();
+        }
+
+        function redraw() {
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+          curList().forEach(drawStroke);
+        }
+
+        function pos(e) {
+          var r = canvas.getBoundingClientRect();
+          return [e.clientX - r.left, e.clientY - r.top];
+        }
+
+        function eraseAt(p) {
+          var list = curList(),
+            RAD = 12,
+            changed = false;
+          for (var i = list.length - 1; i >= 0; i--) {
+            var hit = list[i].points.some(function (pt) {
+              return Math.hypot(pt[0] - p[0], pt[1] - p[1]) < RAD;
+            });
+            if (hit) {
+              list.splice(i, 1);
+              changed = true;
+            }
+          }
+          if (changed) redraw();
+        }
+
+        canvas.addEventListener("pointerdown", function (e) {
+          if (mode === "off") return;
+          e.preventDefault();
+          var p = pos(e);
+          if (mode === "eraser") {
+            eraseAt(p);
+            return;
+          }
+          drawing = true;
+          curStroke = { color: color, w: lineWidth, points: [p] };
+          curList().push(curStroke);
+          drawStroke(curStroke);
+        });
+        canvas.addEventListener("pointermove", function (e) {
+          if (mode === "off") return;
+          var p = pos(e);
+          if (mode === "eraser") {
+            if (e.buttons) eraseAt(p);
+            return;
+          }
+          if (!drawing) return;
+          curStroke.points.push(p);
+          redraw();
+        });
+        window.addEventListener("pointerup", function () {
+          drawing = false;
+        });
+
+        function setMode(m) {
+          mode = mode === m ? "off" : m;
+          canvas.classList.toggle("active", mode !== "off");
+          toggleBtn.classList.toggle("on", mode !== "off");
+          toolbar.classList.toggle("open", mode !== "off");
+          toggleBtn.style.background = mode === "eraser" ? "#9aa7b5" : "";
+          toggleBtn.style.borderColor = mode === "eraser" ? "#9aa7b5" : "";
+          toggleBtn.style.color = mode === "eraser" ? "#fff" : "";
+        }
+
+        toggleBtn.addEventListener("click", function () {
+          setMode("pen");
+        });
+        eraserBtn.addEventListener("click", function () {
+          setMode("eraser");
+        });
+        document
+          .getElementById("draw-undo")
+          .addEventListener("click", function () {
+            curList().pop();
+            redraw();
+          });
+        document
+          .getElementById("draw-clear")
+          .addEventListener("click", function () {
+            strokes[slideKey()] = [];
+            redraw();
+          });
+        Array.prototype.forEach.call(
+          document.querySelectorAll(".dt-color"),
+          function (b) {
+            b.addEventListener("click", function () {
+              color = b.dataset.c;
+              document.querySelectorAll(".dt-color").forEach(function (x) {
+                x.classList.remove("sel");
+              });
+              b.classList.add("sel");
+              if (mode !== "pen") setMode("pen");
+            });
+          },
+        );
+
+        // 快捷键 D：切换勾画模式
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "d" || e.key === "D") setMode("pen");
+        });
+
+        Reveal.addEventListener("slidechanged", redraw);
+        Reveal.addEventListener("resize", resize);
+        window.addEventListener("resize", resize);
+        resize();
+      })();
+    </script>
+  </body>
+</html>
