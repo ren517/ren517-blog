@@ -16,7 +16,7 @@ series = ["Themes Guide"]
 
 本文是安全系统工程课堂分组汇报的幻灯片：应用 **LEC、MES、MLS** 三种评价法对煤矿综采工作面进行安全评价。
 
-👉 想要最佳体验（键盘翻页、勾画标注、全屏），请[在新标签页全屏打开](/slides/safety-eval/){target="_blank"}。
+👉 想要最佳体验（键盘翻页、勾画标注、全屏），请[在新标签页全屏打开](/slides/safety-eval/)。
 
 <iframe src="/slides/safety-eval/" width="100%" height="640" style="border:0;border-radius:10px;" allowfullscreen loading="lazy"></iframe>
 
