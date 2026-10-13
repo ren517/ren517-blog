@@ -46,7 +46,10 @@
     <div class="project-grid">
       <!-- 个人博客 -->
       <article class="project-card">
-        <div class="project-icon">⌘</div>
+        <!-- 自定义图片：把图片放到 static/images/projects/ 下，改 src 即可；删掉整个 project-media 块则回退到图标 -->
+        <div class="project-media">
+          <img src="favicon.ico" alt="GitHub 博客" loading="lazy" />
+        </div>
         <h3>GitHub 博客</h3>
         <p>
           基于 Hugo 与 Stack 主题构建的个人技术博客，
@@ -66,9 +69,34 @@
         >
       </article>
 
+      <!-- 安全仿真python作业 -->
+      <article class="project-card">
+        <div class="project-media">
+          <img src="icons/github.svg" alt="python作业" loading="lazy" />
+        </div>
+        <h3>安全仿真python作业</h3>
+        <p>上课，实验和作业的代码</p>
+        <div class="project-tags">
+          <span>Python</span>
+        </div>
+        <a
+          href="https://github.com/ren517/study_test"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-link"
+          >查看源码 ↗</a
+        >
+      </article>
+
       <!-- 成绩查询系统 -->
       <article class="project-card">
-        <div class="project-icon">⌁</div>
+        <div class="project-media">
+          <img
+            src="/images/projects/grade.png"
+            alt="成绩查询系统"
+            loading="lazy"
+          />
+        </div>
         <h3>成绩查询系统</h3>
         <p>
           面向学校成绩查询场景的辅助工具， 探索自动化处理、数据获取与通知功能。
@@ -86,17 +114,42 @@
         >
       </article>
 
-      <!-- 深度学习研究项目 -->
+      <!-- esp32灯带项目 -->
       <article class="project-card">
-        <div class="project-icon">◈</div>
-        <h3>Transformer–LSTM 预测模型</h3>
+        <div class="project-media">
+          <img src="icons/github.ico" alt="esp32灯带项目" loading="lazy" />
+        </div>
+        <h3>esp32灯带项目</h3>
         <p>
-          探索基于深度学习的瓦斯涌出量预测， 结合时序建模、模型评估与可视化。
+          该项目分为发射端和接收端，发射端利用 espc3minisuper，接收端利用
+          espc3经典款，灯带利用开源项目WLED。目的为发射端利用颜色传感器获得物理颜色，发射到接收端上，改变其颜色。
         </p>
         <div class="project-tags">
-          <span>PyTorch</span>
-          <span>Transformer</span>
-          <span>LSTM</span>
+          <span>开发板</span>
+          <span>嵌入式</span>
+        </div>
+        <a
+          href="https://github.com/ren517/my_led"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-link"
+          >查看源码 ↗</a
+        >
+      </article>
+
+      <!-- flutter app -->
+      <article class="project-card">
+        <div class="project-media">
+          <img src="logo.png" alt="flutter开发xust专属课表" loading="lazy" />
+        </div>
+        <h3>Transformer–LSTM 预测模型</h3>
+        <p>
+          开发xust专属的课表，兼顾一键查询教务成绩，定制化本地化高于一切商用课表
+        </p>
+        <div class="project-tags">
+          <span>Flutter</span>
+          <span>Android</span>
+          <span>IOS</span>
         </div>
         <span class="project-status">研究与开发中</span>
       </article>
@@ -120,19 +173,19 @@
 
   .dashboard-eyebrow {
     color: var(--accent-color);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: 0.15em;
   }
 
   .dashboard-header h1 {
     margin: 0.6rem 0;
-    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-size: clamp(2.4rem, 5vw, 3.2rem);
     line-height: 1.35;
   }
 
   .dashboard-header > p:last-child {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.8;
     opacity: 0.85;
   }
@@ -167,7 +220,7 @@
   .dashboard-card-heading h2,
   .section-heading h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 1.5;
     font-weight: 700;
   }
@@ -175,7 +228,7 @@
   .dashboard-card-heading p,
   .section-heading p,
   .dashboard-note {
-    font-size: 1rem;
+    font-size: 1.05rem;
     line-height: 1.8;
     opacity: 0.8;
   }
@@ -183,7 +236,7 @@
   .dashboard-card-heading a {
     flex-shrink: 0;
     color: var(--accent-color);
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     text-decoration: none;
   }
@@ -194,6 +247,8 @@
 
   /* ==============================
      GitHub 贡献热力图
+     关键修改：让热力图 SVG 铺满卡片宽度，
+     而不是按原始尺寸缩在左边
   ============================== */
 
   .dashboard-graph {
@@ -203,6 +258,7 @@
   }
 
   #gh {
+    width: 100%;
     --gh-bg-color: transparent;
     --gh-text-default-color: var(--body-text-color);
     --gh-cell-level0-color: #e8edf2;
@@ -212,6 +268,15 @@
     --gh-cell-level4-color: #167c43;
     --gh-border-card-color: var(--card-separator-color);
     --gh-font-default-family: inherit;
+  }
+
+  /* 强制库渲染出来的 SVG 跟随容器宽度等比放大 */
+  #gh svg,
+  .dashboard-graph svg {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    min-width: 620px; /* 手机上避免格子过小，出现横向滚动 */
   }
 
   .dashboard-note {
@@ -250,7 +315,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 2rem;
+    padding: 1.75rem;
     min-width: 0;
     min-height: 320px;
     transition:
@@ -265,26 +330,34 @@
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
   }
 
-  /* 项目图标 */
+  /* 项目自定义图片（替代原来的小图标） */
 
-  .project-icon {
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    width: 54px;
-    height: 54px;
+  .project-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
     margin-bottom: 1.25rem;
-    border-radius: 15px;
-    background: var(--accent-color);
-    color: white;
-    font-size: 1.7rem;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--card-separator-color);
+  }
+
+  .project-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 图片按比例裁剪填满，不会变形 */
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover .project-media img {
+    transform: scale(1.03);
   }
 
   /* 项目标题 */
 
   .project-card h3 {
     margin: 0 0 0.9rem;
-    font-size: 1.4rem;
+    font-size: 1.45rem;
     line-height: 1.5;
     font-weight: 700;
     overflow-wrap: anywhere;
@@ -356,7 +429,7 @@
     }
 
     .project-card h3 {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
     }
 
     .project-card p {
@@ -394,7 +467,7 @@
 
     .dashboard-card-heading h2,
     .section-heading h2 {
-      font-size: 1.3rem;
+      font-size: 1.35rem;
     }
 
     .dashboard-card-heading p,
@@ -412,12 +485,6 @@
       padding: 1.5rem;
       min-height: 260px;
       border-radius: 16px;
-    }
-
-    .project-icon {
-      width: 48px;
-      height: 48px;
-      font-size: 1.5rem;
     }
 
     .project-card h3 {
@@ -451,6 +518,14 @@
     }
 
     .project-card:hover {
+      transform: none;
+    }
+
+    .project-media img {
+      transition: none;
+    }
+
+    .project-card:hover .project-media img {
       transform: none;
     }
   }
