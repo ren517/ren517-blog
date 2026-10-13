@@ -106,7 +106,7 @@
   }
 
   .dashboard-header {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .dashboard-eyebrow {
@@ -129,7 +129,7 @@
   }
 
   .dashboard-card {
-    padding: clamp(1rem, 3vw, 1.75rem);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
   }
 
   .dashboard-card-heading {
@@ -175,11 +175,11 @@
   }
 
   .projects-section {
-    margin-top: 2.25rem;
+    margin-top: 3rem;
   }
 
   .section-heading {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .section-heading p {
@@ -189,15 +189,19 @@
   .project-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .project-card {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 1.25rem;
+    padding: 2rem;
     min-width: 0;
+    min-height: 300px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 20px;
+    background: var(--card-background);
     transition:
       transform 0.2s ease,
       border-color 0.2s ease;
