@@ -1,0 +1,124 @@
+{{ define "main" }}
+<div class="dashboard-page">
+  <header class="dashboard-header">
+    <p class="dashboard-eyebrow">DEVELOPER SPACE</p>
+    <h1>开发者仪表盘</h1>
+    <p>持续记录开源贡献与技术探索。</p>
+  </header>
+
+  <section class="dashboard-card">
+    <div class="dashboard-card-heading">
+      <div>
+        <h2>GitHub Contributions</h2>
+        <p>过去一年的代码贡献记录</p>
+      </div>
+      <a
+        href="https://github.com/ren517"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        查看 GitHub ↗
+      </a>
+    </div>
+
+    <div class="dashboard-graph">
+      <div
+        id="gh"
+        data-login="ren517"
+        data-show-thumbnail="false"
+        data-show-header="true"
+        data-show-footer="true"
+      ></div>
+    </div>
+
+    <p class="dashboard-note">数据由 GitHub 及第三方服务提供。</p>
+  </section>
+</div>
+
+<style>
+  .dashboard-page {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboard-header {
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-eyebrow {
+    color: var(--accent-color);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+  }
+
+  .dashboard-header h1 {
+    margin: 0.5rem 0;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+  }
+
+  .dashboard-card {
+    padding: clamp(1rem, 3vw, 1.75rem);
+    border: 1px solid var(--card-separator-color);
+    border-radius: 16px;
+    background: var(--card-background);
+  }
+
+  .dashboard-card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .dashboard-card-heading h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .dashboard-card-heading p,
+  .dashboard-note {
+    font-size: 0.85rem;
+    opacity: 0.75;
+  }
+
+  .dashboard-graph {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  #gh {
+    --gh-bg-color: transparent;
+    --gh-text-default-color: var(--body-text-color);
+    --gh-cell-level0-color: #e8edf2;
+    --gh-cell-level1-color: #b7efc5;
+    --gh-cell-level2-color: #68d391;
+    --gh-cell-level3-color: #2fba68;
+    --gh-cell-level4-color: #167c43;
+    --gh-border-card-color: var(--card-separator-color);
+    --gh-font-default-family: inherit;
+  }
+
+  .dashboard-note {
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .dashboard-card-heading {
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/github-contrib-graph@3.1.1/dist/gh.css"
+/>
+
+<script
+  defer
+  src="https://unpkg.com/github-contrib-graph@3.1.1/dist/browser.global.js"
+></script>
+{{ end }}
