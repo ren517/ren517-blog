@@ -46,7 +46,6 @@
     <div class="project-grid">
       <!-- 个人博客 -->
       <article class="project-card">
-        <!-- 自定义图片：把图片放到 static/images/projects/ 下，改 src 即可；删掉整个 project-media 块则回退到图标 -->
         <div class="project-media">
           <img src="favicon.ico" alt="GitHub 博客" loading="lazy" />
         </div>
@@ -91,7 +90,7 @@
       <!-- 成绩查询系统 -->
       <article class="project-card">
         <div class="project-media">
-          <img src="/icons/github.ico" alt="成绩查询系统" loading="lazy" />
+          <img src="/icons/github.svg" alt="成绩查询系统" loading="lazy" />
         </div>
         <h3>成绩查询系统</h3>
         <p>
@@ -113,7 +112,7 @@
       <!-- esp32灯带项目 -->
       <article class="project-card">
         <div class="project-media">
-          <img src="/icons/github.ico" alt="esp32灯带项目" loading="lazy" />
+          <img src="/icons/github.svg" alt="esp32灯带项目" loading="lazy" />
         </div>
         <h3>esp32灯带项目</h3>
         <p>
@@ -173,19 +172,19 @@
 
   .dashboard-eyebrow {
     color: var(--accent-color);
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 700;
     letter-spacing: 0.15em;
   }
 
   .dashboard-header h1 {
     margin: 0.6rem 0;
-    font-size: clamp(2.4rem, 5vw, 3.2rem);
+    font-size: clamp(2.6rem, 6vw, 3.6rem);
     line-height: 1.35;
   }
 
   .dashboard-header > p:last-child {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     line-height: 1.8;
     opacity: 0.85;
   }
@@ -220,7 +219,7 @@
   .dashboard-card-heading h2,
   .section-heading h2 {
     margin: 0;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     line-height: 1.5;
     font-weight: 700;
   }
@@ -228,7 +227,7 @@
   .dashboard-card-heading p,
   .section-heading p,
   .dashboard-note {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     line-height: 1.8;
     opacity: 0.8;
   }
@@ -236,7 +235,7 @@
   .dashboard-card-heading a {
     flex-shrink: 0;
     color: var(--accent-color);
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 600;
     text-decoration: none;
   }
@@ -247,8 +246,8 @@
 
   /* ==============================
      GitHub 贡献热力图
-     关键修改：让热力图 SVG 铺满卡片宽度，
-     而不是按原始尺寸缩在左边
+     注意：SVG 的等比缩放由文件末尾的 JS（补 viewBox）保证，
+     CSS 只约束宽度，高度按比例自适应，不会变形
   ============================== */
 
   .dashboard-graph {
@@ -270,18 +269,17 @@
     --gh-font-default-family: inherit;
   }
 
-  /* 强制库渲染出来的 SVG 跟随容器宽度等比放大 */
-  #gh svg,
-  .dashboard-graph svg {
+  #gh svg {
     display: block;
-    width: 100% !important;
-    height: auto !important;
-    min-width: 620px; /* 手机上避免格子过小，出现横向滚动 */
+    width: 100%;
+    height: auto;
+    min-width: 620px; /* 手机上保持可读，容器横向滚动 */
   }
 
   .dashboard-note {
     margin-top: 1.25rem;
     margin-bottom: 0;
+    font-size: 1.1rem;
   }
 
   /* ==============================
@@ -330,14 +328,16 @@
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
   }
 
-  /* 项目自定义图片（替代原来的小图标） */
+  /* 项目小方形图片：固定 72px，位于卡片左上角 */
 
   .project-media {
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
     margin-bottom: 1.25rem;
-    border-radius: 14px;
+    border-radius: 16px;
     overflow: hidden;
+    border: 1px solid var(--card-separator-color);
     background: var(--card-separator-color);
   }
 
@@ -345,19 +345,14 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 图片按比例裁剪填满，不会变形 */
-    transition: transform 0.3s ease;
-  }
-
-  .project-card:hover .project-media img {
-    transform: scale(1.03);
+    object-fit: cover; /* 非正方形图片居中裁剪，不会变形 */
   }
 
   /* 项目标题 */
 
   .project-card h3 {
     margin: 0 0 0.9rem;
-    font-size: 1.45rem;
+    font-size: 1.75rem;
     line-height: 1.5;
     font-weight: 700;
     overflow-wrap: anywhere;
@@ -367,7 +362,7 @@
 
   .project-card p {
     margin: 0 0 1.5rem;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     line-height: 1.9;
     opacity: 0.9;
   }
@@ -383,10 +378,10 @@
   }
 
   .project-tags span {
-    padding: 0.4rem 0.75rem;
-    border-radius: 7px;
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
     background: var(--card-separator-color);
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     line-height: 1.5;
   }
 
@@ -395,7 +390,7 @@
   .project-link,
   .project-status {
     margin-top: auto;
-    font-size: 1rem;
+    font-size: 1.15rem;
     line-height: 1.7;
     font-weight: 600;
   }
@@ -429,11 +424,11 @@
     }
 
     .project-card h3 {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
     }
 
     .project-card p {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
   }
 
@@ -447,11 +442,11 @@
     }
 
     .dashboard-header h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
 
     .dashboard-header > p:last-child {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
 
     .dashboard-card {
@@ -467,13 +462,13 @@
 
     .dashboard-card-heading h2,
     .section-heading h2 {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
     }
 
     .dashboard-card-heading p,
     .section-heading p,
     .dashboard-note {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
     }
 
     .project-grid {
@@ -487,22 +482,28 @@
       border-radius: 16px;
     }
 
+    .project-media {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+    }
+
     .project-card h3 {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
     }
 
     .project-card p {
-      font-size: 1rem;
+      font-size: 1.1rem;
       line-height: 1.85;
     }
 
     .project-tags span {
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
 
     .project-link,
     .project-status {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
     }
 
     .projects-section {
@@ -520,14 +521,6 @@
     .project-card:hover {
       transform: none;
     }
-
-    .project-media img {
-      transition: none;
-    }
-
-    .project-card:hover .project-media img {
-      transform: none;
-    }
   }
 </style>
 
@@ -539,4 +532,28 @@
   defer
   src="https://unpkg.com/github-contrib-graph@3.1.1/dist/browser.global.js"
 ></script>
+
+<!-- 修复热力图变形：等库渲染完成后给 SVG 补上 viewBox，
+     高度即可按比例自适应（配合上面 CSS 的 width:100%; height:auto） -->
+<script>
+  (function () {
+    function fixGhGraph() {
+      var svg = document.querySelector("#gh svg");
+      if (!svg) {
+        setTimeout(fixGhGraph, 200);
+        return;
+      }
+      if (!svg.getAttribute("viewBox")) {
+        var w = parseFloat(svg.getAttribute("width")) || 720;
+        var h = parseFloat(svg.getAttribute("height")) || 160;
+        svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+      }
+      svg.removeAttribute("width");
+      svg.removeAttribute("height");
+      svg.style.width = "100%";
+      svg.style.height = "auto";
+    }
+    window.addEventListener("load", fixGhGraph);
+  })();
+</script>
 {{ end }}
