@@ -53,11 +53,11 @@
         margin-bottom: 0.5em;
       }
       .reveal h2 {
-        font-size: 1.35em;
+        font-size: 1.22em;
         margin-top: 0;
       }
       .reveal table {
-        font-size: 0.62em;
+        font-size: 0.56em;
         border-collapse: collapse;
         width: 100%;
       }
@@ -68,7 +68,7 @@
       .reveal table th,
       .reveal table td {
         border: 1px solid #c8d3de;
-        padding: 0.3em 0.45em;
+        padding: 0.2em 0.38em;
         text-align: center;
       }
       .reveal table td.lft,
@@ -140,8 +140,8 @@
         background: var(--primary);
         color: #fff;
         border-radius: 6px;
-        padding: 0.45em 0.55em;
-        font-size: 0.58em;
+        padding: 0.35em 0.5em;
+        font-size: 0.54em;
         display: flex;
         align-items: center;
       }
@@ -156,8 +156,8 @@
         display: flex;
         align-items: center;
         gap: 0.5em;
-        margin: 0.28em 0;
-        font-size: 0.7em;
+        margin: 0.22em 0;
+        font-size: 0.62em;
       }
       .bar-label {
         width: 9.5em;
@@ -169,7 +169,7 @@
         background: #e9eef4;
         border-radius: 4px;
         overflow: hidden;
-        height: 1.15em;
+        height: 1.05em;
         position: relative;
       }
       .bar-fill {
@@ -588,7 +588,7 @@
                   >R = M × E × S</span
                 >
               </p>
-              <ul style="font-size: 0.6em">
+              <ul style="font-size: 0.72em">
                 <li>
                   <strong>M</strong> — 控制措施状态：<strong>5</strong>
                   无措施／危害不能被发现；<strong>3</strong>
@@ -715,14 +715,14 @@
             >，并将后果细化为四类损失之和：
           </p>
           <p style="text-align: center">
-            <span class="formula" style="font-size: 1.1em"
+            <span class="formula" style="font-size: 1em"
               >R = Σ<sub>i=1..n</sub> M<sub>i</sub> · L<sub>i</sub> · ( S<sub
                 >i1</sub
               >
               + S<sub>i2</sub> + S<sub>i3</sub> + S<sub>i4</sub> )</span
             >
           </p>
-          <table style="font-size: 0.68em">
+          <table>
             <thead>
               <tr>
                 <th style="width: 16%">参数</th>
@@ -777,7 +777,7 @@
         <!-- 10 MLS 应用 -->
         <section>
           <div class="slide-title-bar"><h2>MLS 法评价过程与结果</h2></div>
-          <table style="font-size: 0.66em">
+          <table>
             <thead>
               <tr>
                 <th>单元</th>
@@ -1051,7 +1051,7 @@
               >，并随管控措施动态更新评价结果。
             </li>
           </ul>
-          <table style="font-size: 0.6em; margin-top: 0.6em">
+          <table style="margin-top: 0.5em">
             <thead>
               <tr>
                 <th>主要依据</th>
@@ -1138,9 +1138,36 @@
         transition: "slide",
         width: 1100,
         height: 700,
-        margin: 0.06,
+        margin: 0.04,
         keyboard: true,
       });
+
+      /* ═══════════ 自动适配：内容超出显示区的页自动缩小字号 ═══════════ */
+      function fitSlide(sec) {
+        sec.style.fontSize = "";
+        var limit = sec.parentElement ? sec.parentElement.offsetHeight : 0;
+        var guard = 0;
+        while (
+          guard < 16 &&
+          (sec.offsetHeight > limit + 2 ||
+            sec.scrollHeight > sec.clientHeight + 2)
+        ) {
+          sec.style.fontSize =
+            parseFloat(getComputedStyle(sec).fontSize) * 0.94 + "px";
+          guard++;
+        }
+      }
+      function fitAllSlides() {
+        document
+          .querySelectorAll(".reveal .slides > section")
+          .forEach(fitSlide);
+        Reveal.layout && Reveal.layout();
+      }
+      Reveal.addEventListener("ready", fitAllSlides);
+      Reveal.addEventListener("slidechanged", function (ev) {
+        fitSlide(ev.currentSlide);
+      });
+      Reveal.addEventListener("resize", fitAllSlides);
 
       /* ═══════════ 勾画（画笔标注）功能 ═══════════ */
       (function () {
