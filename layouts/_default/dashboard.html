@@ -47,7 +47,7 @@
       <!-- 个人博客 -->
       <article class="project-card">
         <div class="project-media">
-          <img src="favicon.ico" alt="GitHub 博客" loading="lazy" />
+          <img src="/favicon.ico" alt="GitHub 博客" loading="lazy" />
         </div>
         <h3>GitHub 博客</h3>
         <p>
@@ -246,34 +246,48 @@
 
   /* ==============================
      GitHub 贡献热力图
-     注意：SVG 的等比缩放由文件末尾的 JS（补 viewBox）保证，
-     CSS 只约束宽度，高度按比例自适应，不会变形
+     关键结论：这个库渲染的是 HTML <table>（不是 SVG），
+     格子大小由 --gh-cell-size / --gh-cell-gap 两个变量控制，
+     改这两个值整张图等比放大缩小，天然不会变形。
+     不要写任何 #gh svg 规则（页面里的 svg 只是底部 18px 图例）。
   ============================== */
 
   .dashboard-graph {
     width: 100%;
     min-width: 0;
-    overflow-x: auto;
+    overflow-x: auto; /* 图太宽时横向滚动，而不是压缩格子 */
   }
 
   #gh {
     width: 100%;
     --gh-bg-color: transparent;
     --gh-text-default-color: var(--body-text-color);
+    --gh-cell-size: 12px; /* 想更大就调这里，比如 13px / 14px */
+    --gh-cell-gap: 3px; /* 格子间距，同上 */
+    --gh-cell-radius: 2px;
     --gh-cell-level0-color: #e8edf2;
     --gh-cell-level1-color: #b7efc5;
     --gh-cell-level2-color: #68d391;
     --gh-cell-level3-color: #2fba68;
     --gh-cell-level4-color: #167c43;
     --gh-border-card-color: var(--card-separator-color);
+    --gh-footer-font-size: 1rem;
     --gh-font-default-family: inherit;
   }
 
-  #gh svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    min-width: 620px; /* 手机上保持可读，容器横向滚动 */
+  /* 防止主题的全局 table / td 样式（width:100%、padding 等）
+     把格子拉成长方形 —— 这是表格被拉伸变形的常见来源 */
+  .dashboard-graph .ghCalendarTable {
+    width: max-content !important;
+    max-width: none !important;
+    margin: 0 auto; /* 在卡片里居中 */
+    border-collapse: separate !important;
+    border-spacing: var(--gh-cell-gap) !important;
+  }
+
+  .dashboard-graph .ghCalendarTable td,
+  .dashboard-graph .ghCalendarTable th {
+    padding: 0 !important; /* 主题的 td padding 会撑大格子 */
   }
 
   .dashboard-note {
@@ -532,28 +546,4 @@
   defer
   src="https://unpkg.com/github-contrib-graph@3.1.1/dist/browser.global.js"
 ></script>
-
-<!-- 修复热力图变形：等库渲染完成后给 SVG 补上 viewBox，
-     高度即可按比例自适应（配合上面 CSS 的 width:100%; height:auto） -->
-<script>
-  (function () {
-    function fixGhGraph() {
-      var svg = document.querySelector("#gh svg");
-      if (!svg) {
-        setTimeout(fixGhGraph, 200);
-        return;
-      }
-      if (!svg.getAttribute("viewBox")) {
-        var w = parseFloat(svg.getAttribute("width")) || 720;
-        var h = parseFloat(svg.getAttribute("height")) || 160;
-        svg.setAttribute("viewBox", "0 0 " + w + " " + h);
-      }
-      svg.removeAttribute("width");
-      svg.removeAttribute("height");
-      svg.style.width = "100%";
-      svg.style.height = "auto";
-    }
-    window.addEventListener("load", fixGhGraph);
-  })();
-</script>
 {{ end }}
