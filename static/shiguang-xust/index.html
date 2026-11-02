@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fcfbfa">
+  <meta name="description" content="拾光课程表 XUST 定制版：免费、无广告、仅 3.9MB，完美接入 XUST 教务系统。查看下载方式与课表、考试、成绩查询教程。">
+  <title>拾光课程表 · XUST 定制版</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #fcfbfa;
+      --foreground: #201c19;
+      --card: #ffffff;
+      --card-foreground: #201c19;
+      --popover: #ffffff;
+      --popover-foreground: #201c19;
+      --primary: #d94f32;
+      --primary-hover: #c74328;
+      --primary-foreground: #ffffff;
+      --secondary: #f3efeb;
+      --secondary-foreground: #3e3732;
+      --muted: #f5f2ef;
+      --muted-foreground: #716861;
+      --accent: #fff0e9;
+      --accent-foreground: #a93c24;
+      --border: #e8e2dc;
+      --input: #e8e2dc;
+      --ring: #d94f32;
+      --success: #287a52;
+      --success-soft: #eaf6ef;
+      --nav-bg: rgba(252, 251, 250, .86);
+      --hero-glow: rgba(244, 174, 139, .24);
+      --hero-glow-secondary: rgba(250, 218, 164, .25);
+      --shadow-soft: 0 24px 70px rgba(71, 48, 35, .12);
+      --shadow-float: 0 16px 42px rgba(71, 48, 35, .16);
+      --radius: .85rem;
+      --radius-sm: calc(var(--radius) * .6);
+      --radius-md: calc(var(--radius) * .8);
+      --radius-lg: var(--radius);
+      --radius-xl: calc(var(--radius) * 1.4);
+      --radius-2xl: calc(var(--radius) * 1.8);
+      --duration-quick: 150ms;
+      --duration-fast: 250ms;
+      --duration-slow: 400ms;
+      --ease-smooth-out: cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .dark {
+      color-scheme: dark;
+      --background: #171412;
+      --foreground: #f5f1ed;
+      --card: #201c19;
+      --card-foreground: #f5f1ed;
+      --popover: #26211d;
+      --popover-foreground: #f5f1ed;
+      --primary: #f07655;
+      --primary-hover: #fb8968;
+      --primary-foreground: #25130d;
+      --secondary: #2b2521;
+      --secondary-foreground: #eee6df;
+      --muted: #26211e;
+      --muted-foreground: #b5aaa1;
+      --accent: #38261f;
+      --accent-foreground: #ffad91;
+      --border: #37302b;
+      --input: #443a34;
+      --ring: #f07655;
+      --success: #75c99b;
+      --success-soft: #1d3025;
+      --nav-bg: rgba(23, 20, 18, .88);
+      --hero-glow: rgba(184, 82, 48, .12);
+      --hero-glow-secondary: rgba(207, 158, 71, .09);
+      --shadow-soft: 0 24px 70px rgba(0, 0, 0, .26);
+      --shadow-float: 0 16px 42px rgba(0, 0, 0, .36);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 78% 8%, var(--hero-glow), transparent 27rem),
+        radial-gradient(circle at 10% 24%, var(--hero-glow-secondary), transparent 24rem);
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    :focus-visible { outline: 3px solid var(--ring); outline-offset: 4px; }
+    ::selection { background: var(--accent); color: var(--accent-foreground); }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: -80px;
+      z-index: 100;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .skip-link:focus { top: 16px; }
+    .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+    .section { padding: 88px 0; }
+    .section-heading { max-width: 700px; margin-bottom: 36px; }
+    .section-heading.center { margin-inline: auto; text-align: center; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--primary); border-radius: 9px; }
+    h1, h2, h3, h4, p { margin-top: 0; }
+    h1, h2, h3, h4 { line-height: 1.25; letter-spacing: -.035em; }
+    h2 { margin-bottom: 14px; font-size: clamp(30px, 4vw, 44px); }
+    h3 { font-size: 21px; }
+    .section-heading p { margin-bottom: 0; color: var(--muted-foreground); font-size: 17px; }
+    .muted { color: var(--muted-foreground); }
+    .icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid transparent;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: border-color var(--duration-fast);
+    }
+    .site-header.scrolled { border-bottom-color: var(--border); }
+    .nav { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.03em; white-space: nowrap; }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      box-shadow: 0 7px 18px var(--hero-glow);
+    }
+    .brand-mark .icon { width: 23px; height: 23px; }
+    .brand small { display: block; color: var(--muted-foreground); font-size: 10px; font-weight: 700; letter-spacing: .12em; line-height: 1; }
+    .nav-links { display: flex; align-items: center; gap: 30px; margin-left: auto; }
+    .nav-links a { color: var(--muted-foreground); font-size: 14px; font-weight: 600; transition: color var(--duration-quick); }
+    .nav-links a:hover { color: var(--foreground); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 10px 19px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.4;
+      transition: background-color var(--duration-quick), border-color var(--duration-quick), color var(--duration-quick), transform var(--duration-quick);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary { background: var(--primary); color: var(--primary-foreground); }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: var(--secondary); color: var(--secondary-foreground); }
+    .btn-secondary:hover { background: var(--accent); color: var(--accent-foreground); }
+    .btn-outline { border-color: var(--border); background: var(--card); color: var(--foreground); }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-lg { min-height: 52px; padding: 13px 23px; font-size: 15px; border-radius: var(--radius-lg); }
+    .icon-btn { width: 42px; height: 42px; padding: 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); color: var(--muted-foreground); cursor: pointer; display: grid; place-items: center; }
+    .icon-btn:hover { color: var(--foreground); background: var(--secondary); }
+    .sun-icon { display: none; }
+    .dark .sun-icon { display: block; }
+    .dark .moon-icon { display: none; }
+
+    .hero { padding: 74px 0 80px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 54px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--muted-foreground);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .hero-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+    .hero h1 { margin-bottom: 24px; font-size: clamp(44px, 6vw, 70px); font-weight: 850; letter-spacing: -.065em; }
+    .hero h1 span { color: var(--primary); }
+    .hero-description { max-width: 590px; margin-bottom: 28px; color: var(--muted-foreground); font-size: 18px; line-height: 1.9; }
+    .hero-description strong { color: var(--foreground); font-weight: 700; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-notes { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 24px; color: var(--muted-foreground); font-size: 13px; }
+    .hero-notes span { display: inline-flex; align-items: center; gap: 6px; }
+    .hero-notes .icon { width: 16px; height: 16px; color: var(--success); }
+    .hero-visual { position: relative; min-height: 590px; display: grid; place-items: center; }
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: var(--accent);
+      z-index: -1;
+    }
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 45px 0;
+      border: 1px solid var(--border);
+      border-radius: 48% 52% 45% 55%;
+      transform: rotate(-10deg);
+      z-index: -1;
+    }
+    .hero-phone { width: 300px; filter: drop-shadow(var(--shadow-float)); transform: rotate(2deg); }
+    .float-card {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow-soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .float-card .icon { color: var(--primary); }
+    .float-card.one { left: 0; top: 22%; }
+    .float-card.two { right: -4px; bottom: 22%; }
+
+    .quick-strip { border-block: 1px solid var(--border); background: var(--card); }
+    .quick-strip-inner { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .quick-item { padding: 24px 20px; text-align: center; border-right: 1px solid var(--border); }
+    .quick-item:last-child { border-right: 0; }
+    .quick-item strong { display: block; font-size: 20px; letter-spacing: -.03em; }
+    .quick-item span { color: var(--muted-foreground); font-size: 13px; }
+
+    .download-section { padding-top: 90px; }
+    .download-pick {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 24px 28px;
+      margin-bottom: 22px;
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-xl);
+      background: var(--accent);
+    }
+    .download-pick strong { display: block; margin-bottom: 3px; color: var(--accent-foreground); font-size: 20px; }
+    .download-pick p { margin: 0; color: var(--muted-foreground); }
+    .pick-label { flex: none; padding: 7px 12px; border-radius: 999px; background: var(--primary); color: var(--primary-foreground); font-size: 13px; font-weight: 750; }
+    .download-grid { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 16px; }
+    .download-card { position: relative; display: flex; flex-direction: column; min-width: 0; padding: 25px; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--card); }
+    .download-card.recommended { border-color: var(--primary); box-shadow: 0 12px 38px var(--hero-glow); }
+    .recommend-tag { position: absolute; right: 20px; top: 20px; padding: 4px 9px; border-radius: var(--radius-sm); background: var(--success-soft); color: var(--success); font-size: 12px; font-weight: 750; }
+    .device-icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 20px; border-radius: var(--radius-lg); background: var(--secondary); color: var(--foreground); }
+    .download-card h3 { margin-bottom: 8px; font-size: 19px; word-break: break-word; }
+    .download-card p { flex: 1; margin-bottom: 20px; color: var(--muted-foreground); font-size: 14px; }
+    .download-card .btn { width: 100%; }
+    .download-meta { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px 18px; margin-top: 22px; padding: 16px 24px; border: 1px dashed var(--primary); border-radius: var(--radius-xl); background: var(--accent); color: var(--muted-foreground); font-size: 14px; }
+    .password { display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px; border: 2px solid var(--primary); border-radius: var(--radius-md); background: var(--primary); color: var(--primary-foreground); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-weight: 800; font-size: 24px; letter-spacing: 4px; line-height: 1; box-shadow: 0 8px 22px var(--hero-glow); }
+    .copy-btn { padding: 5px 12px; border: 1px solid var(--primary-foreground); border-radius: 999px; background: var(--primary-foreground); color: var(--primary); cursor: pointer; font-size: 12px; font-weight: 700; transition: opacity var(--duration-fast); }
+    .copy-btn:hover { opacity: .88; }
+
+    .features { padding-top: 50px; }
+    .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .feature-card { padding: 27px 24px; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--card); transition: border-color var(--duration-fast), transform var(--duration-fast); }
+    .feature-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+    .feature-card .device-icon { color: var(--primary); background: var(--accent); }
+    .feature-card h3 { margin-bottom: 10px; }
+    .feature-card p { margin: 0; color: var(--muted-foreground); font-size: 14px; }
+    .source-note { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-top: 26px; padding: 25px 28px; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--secondary); }
+    .source-note p { margin: 0; color: var(--muted-foreground); font-size: 14px; }
+    .source-note strong { color: var(--foreground); }
+    .source-note .btn { flex: none; }
+
+    .tutorial-section { background: var(--muted); border-block: 1px solid var(--border); }
+    .tutorial-intro { max-width: 780px; margin: -12px auto 40px; text-align: center; color: var(--muted-foreground); }
+    .tutorial-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 34px; }
+    .tutorial-nav a { padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--muted-foreground); font-size: 13px; font-weight: 650; }
+    .tutorial-nav a:hover { color: var(--primary); border-color: var(--primary); }
+    .tutorial-stack { display: grid; gap: 18px; max-width: 980px; margin-inline: auto; }
+    .tutorial-card { padding: 30px; border: 1px solid var(--border); border-radius: var(--radius-2xl); background: var(--card); }
+    .step-head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 22px; }
+    .step-number { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--primary); color: var(--primary-foreground); font-size: 14px; font-weight: 800; }
+    .step-head h3 { margin: 1px 0 5px; }
+    .step-head p { margin: 0; color: var(--muted-foreground); font-size: 15px; }
+    .screenshots { display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
+    .shot { width: min(250px, 100%); margin: 0; }
+    .shot-button { position: relative; display: block; width: 100%; padding: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--secondary); cursor: zoom-in; }
+    .shot-button img { width: 100%; transition: transform var(--duration-slow) var(--ease-smooth-out); }
+    .shot-button:hover img { transform: scale(1.015); }
+    .zoom-hint { position: absolute; right: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--nav-bg); color: var(--foreground); backdrop-filter: blur(10px); font-size: 11px; }
+    .zoom-hint .icon { width: 13px; height: 13px; }
+    .shot figcaption { padding-top: 10px; text-align: center; color: var(--muted-foreground); font-size: 12px; }
+    .inline-result { margin: 24px 0 20px; padding: 16px 18px; border-left: 3px solid var(--success); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--success-soft); color: var(--foreground); font-weight: 650; }
+    .install-guide { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 980px; margin: 0 auto 24px; }
+    .install-item { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); }
+    .install-item strong { display: block; margin-bottom: 5px; }
+    .install-item span { color: var(--muted-foreground); font-size: 13px; }
+
+    .faq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .faq-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--card); }
+    .faq-card h3 { margin-bottom: 10px; font-size: 17px; }
+    .faq-card p { margin: 0; color: var(--muted-foreground); font-size: 14px; }
+    .final-cta { padding: 70px 0; }
+    .final-cta-inner { position: relative; overflow: hidden; padding: 48px; border-radius: var(--radius-2xl); background: var(--foreground); color: var(--background); text-align: center; }
+    .final-cta h2 { margin-bottom: 12px; }
+    .final-cta p { margin-bottom: 24px; opacity: .72; }
+    .final-cta .btn { background: var(--background); color: var(--foreground); }
+    .site-footer { padding: 30px 0 40px; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--muted-foreground); font-size: 13px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a:hover { color: var(--primary); }
+
+    dialog { width: min(520px, calc(100% - 28px)); max-height: 92vh; padding: 0; overflow: visible; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--popover); color: var(--popover-foreground); box-shadow: var(--shadow-float); }
+    dialog::backdrop { background: rgba(0, 0, 0, .72); backdrop-filter: blur(5px); }
+    dialog[open] { animation: modal-in var(--duration-fast) var(--ease-smooth-out); }
+    .dialog-image { max-height: 88vh; width: 100%; object-fit: contain; border-radius: var(--radius-xl); }
+    .dialog-close { position: absolute; right: 10px; top: 10px; background: var(--nav-bg); }
+    .toast { position: fixed; left: 50%; bottom: 28px; z-index: 90; padding: 10px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--popover); color: var(--popover-foreground); box-shadow: var(--shadow-float); opacity: 0; pointer-events: none; transform: translate(-50%, 10px); transition: opacity var(--duration-fast), transform var(--duration-fast); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @keyframes modal-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr 380px; gap: 20px; }
+      .hero-phone { width: 260px; }
+      .float-card.one { left: -10px; }
+      .float-card.two { right: -10px; }
+      .download-grid { grid-template-columns: 1fr 1fr; }
+      .download-card.recommended { grid-column: 1 / -1; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, 620px); }
+      .section { padding: 64px 0; }
+      .nav { min-height: 66px; gap: 10px; }
+      .nav-links { display: none; }
+      .brand { font-size: 14px; }
+      .brand small { font-size: 9px; }
+      .nav-actions .btn { min-height: 40px; padding: 8px 13px; }
+      .hero { padding: 46px 0 56px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: clamp(43px, 13vw, 60px); }
+      .hero-description { font-size: 16px; }
+      .hero-visual { min-height: 570px; margin-top: 14px; }
+      .hero-phone { width: 280px; }
+      .float-card.one { left: 0; top: 18%; }
+      .float-card.two { right: 0; bottom: 18%; }
+      .quick-strip-inner { grid-template-columns: 1fr 1fr; }
+      .quick-item:nth-child(2) { border-right: 0; }
+      .quick-item:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .download-pick { align-items: flex-start; padding: 20px; }
+      .download-pick strong { font-size: 17px; }
+      .download-pick p { font-size: 14px; }
+      .download-grid { grid-template-columns: 1fr; }
+      .download-card.recommended { grid-column: auto; }
+      .source-note { align-items: flex-start; flex-direction: column; }
+      .tutorial-card { padding: 22px 16px; }
+      .step-head { gap: 12px; }
+      .step-number { width: 34px; height: 34px; }
+      .install-guide, .faq-grid { grid-template-columns: 1fr; }
+      .final-cta-inner { padding: 36px 22px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 430px) {
+      .brand-text small { display: none; }
+      .brand-mark { width: 34px; height: 34px; }
+      .nav-actions .btn .nav-download-text { display: none; }
+      .nav-actions .btn { width: 40px; padding: 0; }
+      .hero-actions .btn { width: 100%; }
+      .hero-visual { min-height: 530px; }
+      .hero-phone { width: 250px; }
+      .float-card { padding: 9px 11px; font-size: 11px; }
+      .download-pick { flex-direction: column; gap: 12px; }
+      .shot { width: min(270px, 100%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.9 13.1A9 9 0 1 1 10.9 3.1 7 7 0 0 0 20.9 13.1Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M11 18h2"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+    <symbol id="i-exam" viewBox="0 0 24 24"><path d="M9 4h6m-7 4h8m-8 4h8m-8 4h5"/><path d="M6 2H5a2 2 0 0 0-2 2v17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-1"/><rect x="6" y="1" width="12" height="4" rx="1"/></symbol>
+    <symbol id="i-score" viewBox="0 0 24 24"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/><path d="m4 6 5-3 5 4 6-5"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 8.96 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.6 8.96a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3.08V3h4v.08A1.7 1.7 0 0 0 15.04 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.14.6.67 1.03 1.52 1.03H21v4h-.08c-.85 0-1.38.4-1.52.97Z"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3.3-.37 6.8-1.62 6.8-7.4A5.8 5.8 0 0 0 19.25 3 5.4 5.4 0 0 0 19.1 0S17.9-.35 15 1.5a13.4 13.4 0 0 0-7 0C5.1-.35 3.9 0 3.9 0a5.4 5.4 0 0 0-.15 3A5.8 5.8 0 0 0 2.2 7.1c0 5.75 3.5 7 6.8 7.4A4.8 4.8 0 0 0 8 18v4M8 19c-3 .92-3-1.5-4-2"/></symbol>
+  </svg>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="拾光课程表首页">
+        <span class="brand-mark"><svg class="icon"><use href="#i-calendar"/></svg></span>
+        <span class="brand-text">拾光课程表<small>XUST 定制版</small></span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#features">功能介绍</a>
+        <a href="#tutorial">使用教程</a>
+        <a href="https://github.com/ShiGuangSchedule/shiguangschedule" target="_blank" rel="noopener noreferrer">开源项目</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="切换深浅色模式" title="切换深浅色模式">
+          <svg class="icon moon-icon"><use href="#i-moon"/></svg>
+          <svg class="icon sun-icon"><use href="#i-sun"/></svg>
+        </button>
+        <a class="btn btn-primary" href="#download"><svg class="icon"><use href="#i-download"/></svg><span class="nav-download-text">立即下载</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-badge"><span class="dot"></span>西安科技大学定制版 · Android</div>
+          <h1>拾光课程表<br><span>简单，才好用。</span></h1>
+          <p class="hero-description">这是一个<strong>免费，无广告，极简</strong>的课程表，安装包只有 <strong>3.9MB</strong>，比现在市面上商用的课程表方便很多，最重要的是<strong>完美接入 XUST 教务系统</strong>。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#download"><svg class="icon"><use href="#i-download"/></svg>下载安卓版<svg class="icon"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-outline btn-lg" href="#tutorial">第一次使用？看教程</a>
+          </div>
+          <div class="hero-notes">
+            <span><svg class="icon"><use href="#i-check"/></svg>完全免费</span>
+            <span><svg class="icon"><use href="#i-check"/></svg>没有广告</span>
+            <span><svg class="icon"><use href="#i-check"/></svg>教务系统同步</span>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="拾光课程表课表界面预览">
+          <img class="hero-phone" src="images/10.png" alt="拾光课程表正常显示一周课程的界面" fetchpriority="high">
+          <div class="float-card one"><svg class="icon"><use href="#i-calendar"/></svg>一周课程，清晰呈现</div>
+          <div class="float-card two"><svg class="icon"><use href="#i-check"/></svg>XUST 教务系统已接入</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="quick-strip" aria-label="产品特点">
+      <div class="container quick-strip-inner">
+        <div class="quick-item"><strong>3.9MB</strong><span>轻量安装包</span></div>
+        <div class="quick-item"><strong>0 广告</strong><span>纯粹使用体验</span></div>
+        <div class="quick-item"><strong>XUST</strong><span>教务系统接入</span></div>
+        <div class="quick-item"><strong>免费</strong><span>安心使用</span></div>
+      </div>
+    </div>
+
+    <section class="section download-section" id="download">
+      <div class="container">
+        <div class="section-heading center">
+          <span class="eyebrow">Download</span>
+          <h2>下载安装</h2>
+          <p>三个版本选一个就好，不用全部下载。普通手机直接选推荐版本。</p>
+        </div>
+        <div class="download-pick">
+          <div>
+            <strong>不知道选哪个？选 arm64-v8a 就行。</strong>
+            <p>适用于绝大多数安卓手机，也是你最应该下载的版本。</p>
+          </div>
+          <span class="pick-label">新手直接选它</span>
+        </div>
+        <div class="download-grid">
+          <article class="download-card recommended">
+            <span class="recommend-tag">推荐</span>
+            <div class="device-icon"><svg class="icon"><use href="#i-phone"/></svg></div>
+            <h3>arm64-v8a-release.apk</h3>
+            <p><strong>绝大多数安卓手机选这个。</strong><br>近几年的华为、小米、OPPO、vivo、荣耀等手机，通常都使用这个版本。不确定就选它。</p>
+            <a class="btn btn-primary btn-lg" href="https://q77u.lanzouu.com/iFbTX4ef5e7a" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-download"/></svg>下载手机版（推荐）</a>
+          </article>
+          <article class="download-card">
+            <div class="device-icon"><svg class="icon"><use href="#i-phone"/></svg></div>
+            <h3>armeabi-v7a-release.apk</h3>
+            <p><strong>给比较老旧的 32 位安卓手机。</strong><br>普通用户不用选。只有手机较老、推荐版本明确提示不兼容时，再尝试这个版本。</p>
+            <a class="btn btn-outline" href="https://q77u.lanzouu.com/iEo2P4ef5dxa" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-download"/></svg>下载老旧手机版</a>
+          </article>
+          <article class="download-card">
+            <div class="device-icon"><svg class="icon"><use href="#i-monitor"/></svg></div>
+            <h3>x86_64-release.apk</h3>
+            <p><strong>给电脑上的安卓模拟器。</strong><br>手机用户不要选。在电脑上使用 MuMu、雷电等模拟器，或少数 Intel 架构设备时选择。</p>
+            <a class="btn btn-outline" href="https://q77u.lanzouu.com/ibu8I4ef5dob" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-download"/></svg>下载模拟器版</a>
+          </article>
+        </div>
+        <div class="download-meta">
+          <span>三个版本的蓝奏云密码相同：</span>
+          <span class="password">1234 <button class="copy-btn" type="button" data-copy="1234">复制密码</button></span>
+          <span>进入下载页后输入密码即可</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section features" id="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Features</span>
+          <h2>功能介绍</h2>
+          <p>主页面包含考试安排、课表、成绩查询和设置，常用功能一目了然。</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="device-icon"><svg class="icon"><use href="#i-exam"/></svg></div>
+            <h3>考试安排</h3>
+            <p>可以查询期末考试。</p>
+          </article>
+          <article class="feature-card">
+            <div class="device-icon"><svg class="icon"><use href="#i-calendar"/></svg></div>
+            <h3>课表</h3>
+            <p>显示一周的课程，左右滑动可以切换周次，点击顶部周次标题会弹出底部选择器用于快速跳转周次（会标记当前日期所在周）。</p>
+          </article>
+          <article class="feature-card">
+            <div class="device-icon"><svg class="icon"><use href="#i-score"/></svg></div>
+            <h3>成绩查询</h3>
+            <p>查询当前学期教务系统上已经出了的成绩。</p>
+          </article>
+          <article class="feature-card">
+            <div class="device-icon"><svg class="icon"><use href="#i-settings"/></svg></div>
+            <h3>设置</h3>
+            <p>这里放置所有的配置项。</p>
+          </article>
+        </div>
+        <div class="source-note">
+          <p><strong>项目基础来源于开源项目「拾光课程表」。</strong><br>GitHub 上拥有 1k Star 的优质项目。我只是对上面的查询逻辑和界面做了简单修改。</p>
+          <a class="btn btn-outline" href="https://github.com/ShiGuangSchedule/shiguangschedule" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-github"/></svg>查看开源项目</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tutorial-section" id="tutorial">
+      <div class="container">
+        <div class="section-heading center">
+          <span class="eyebrow">Guide</span>
+          <h2>打开课表软件</h2>
+          <p>基础操作跟着图片做，几分钟就能用上。</p>
+        </div>
+        <p class="tutorial-intro">这里只介绍最基础的功能，课表还支持高度的自定义，如改变圆角，设置背景图等，还支持桌面小组件，用户可自行使用。</p>
+
+        <div class="install-guide" aria-label="安装基本步骤">
+          <div class="install-item"><strong>01 下载 APK</strong><span>普通手机选择上方推荐的 arm64-v8a 版本。</span></div>
+          <div class="install-item"><strong>02 按提示安装</strong><span>下载后打开 APK；若系统询问，按提示允许本次安装。</span></div>
+          <div class="install-item"><strong>03 导入课表</strong><span>打开软件，按下面的图文步骤添加用户并同步。</span></div>
+        </div>
+
+        <nav class="tutorial-nav" aria-label="教程导航">
+          <a href="#import">导入课表</a>
+          <a href="#exam">考试查询</a>
+          <a href="#score">成绩查询</a>
+        </nav>
+
+        <div class="tutorial-stack" id="import">
+          <article class="tutorial-card">
+            <div class="step-head">
+              <span class="step-number">1</span>
+              <div><h3>认识主页面</h3><p>可以看到有四个按钮，分别对应考试查询，课表，成绩查询，设置。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/1.png" aria-label="放大查看图一"><img src="images/1.png" alt="图一：课程表主页面，底部有考试查询、课表、成绩查询和设置" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图一 · 主页面</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="tutorial-card">
+            <div class="step-head">
+              <span class="step-number">2</span>
+              <div><h3>点击设置</h3><p>点击底部最右侧的「设置」，进入配置页面。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/2.png" aria-label="放大查看图二"><img src="images/2.png" alt="图二：点击设置后进入的页面" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图二 · 设置页面</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="tutorial-card">
+            <div class="step-head">
+              <span class="step-number">3</span>
+              <div><h3>添加用户</h3><p>在用户管理中添加你的教务系统用户。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/3.png" aria-label="放大查看图三"><img src="images/3.png" alt="图三：添加用户第一步" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图三 · 添加用户</figcaption></figure>
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/4.png" aria-label="放大查看图四"><img src="images/4.png" alt="图四：添加用户第二步" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图四 · 用户管理</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="tutorial-card">
+            <div class="step-head">
+              <span class="step-number">4</span>
+              <div><h3>输入教务系统账号密码</h3><p>填写你平时登录学校教务系统使用的账号和密码。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/5.png" aria-label="放大查看图五"><img src="images/5.png" alt="图五：输入教务系统账号和密码" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图五 · 填写账号密码</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="tutorial-card">
+            <div class="step-head">
+              <span class="step-number">5</span>
+              <div><h3>同步课表</h3><p>保存用户信息后，开始同步课表。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/6.png" aria-label="放大查看图六"><img src="images/6.png" alt="图六：同步课表操作" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图六 · 同步课表</figcaption></figure>
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/7.png" aria-label="放大查看图七"><img src="images/7.png" alt="图七：课表同步过程" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图七 · 等待同步完成</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="tutorial-card">
+            <div class="step-head">
+              <span class="step-number">6</span>
+              <div><h3>设置开学日期</h3><p>现在到课表界面发现还是显示不了的，只需要设置开学日期即可。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/8.png" aria-label="放大查看图八"><img src="images/8.png" alt="图八：设置开学日期" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图八 · 设置开学日期</figcaption></figure>
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/9.png" aria-label="放大查看图九"><img src="images/9.png" alt="图九：选择正确的开学日期" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图九 · 选择日期</figcaption></figure>
+            </div>
+            <p class="inline-result">现在就可以正常查看到课表了。</p>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/10.png" aria-label="放大查看图十"><img src="images/10.png" alt="图十：成功显示完整课表" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图十 · 课表导入完成</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="tutorial-card" id="exam">
+            <div class="step-head">
+              <span class="step-number">7</span>
+              <div><h3>考试查询</h3><p>在考试查询界面点击右上角刷新按钮即可，使用该功能要注意用户管理里面的用户和学年设置。如教务系统没有出考试安排，则该系统无法查出，当教务出了考试安排时，点击会立马同步。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/11.png" aria-label="放大查看图十一"><img src="images/11.png" alt="图十一：考试查询界面和右上角刷新按钮" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图十一 · 考试查询</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="tutorial-card" id="score">
+            <div class="step-head">
+              <span class="step-number">8</span>
+              <div><h3>成绩查询</h3><p>和考试查询类似，当教务没有同步成绩时查不出来，同步后点击刷新就能立马同步。</p></div>
+            </div>
+            <div class="screenshots">
+              <figure class="shot"><button class="shot-button" type="button" data-full="images/12.png" aria-label="放大查看图十二"><img src="images/12.png" alt="图十二：成绩查询界面" loading="lazy"><span class="zoom-hint"><svg class="icon"><use href="#i-zoom"/></svg>点击放大</span></button><figcaption>图十二 · 成绩查询</figcaption></figure>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading center">
+          <span class="eyebrow">Tips</span>
+          <h2>遇到问题，先看这里</h2>
+        </div>
+        <div class="faq-grid">
+          <article class="faq-card"><h3>同步后课表还是不显示？</h3><p>先检查是否已经正确设置「开学日期」。课表需要依据开学日期计算当前周次。</p></article>
+          <article class="faq-card"><h3>考试或成绩查不出来？</h3><p>先确认用户管理和学年设置正确。教务系统尚未发布的数据，软件也无法查询；发布后再点击刷新同步。</p></article>
+          <article class="faq-card"><h3>应该下载哪个安装包？</h3><p>普通安卓手机选择 arm64-v8a；老旧 32 位手机尝试 armeabi-v7a；电脑安卓模拟器选择 x86_64。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container final-cta-inner">
+        <h2>课程安排，简单一点。</h2>
+        <p>免费、无广告、仅 3.9MB 的 XUST 定制课程表。</p>
+        <a class="btn btn-lg" href="#download"><svg class="icon"><use href="#i-download"/></svg>下载拾光课程表</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>拾光课程表 · XUST 定制版</span>
+      <div class="footer-links"><a href="#tutorial">使用教程</a><a href="https://github.com/ShiGuangSchedule/shiguangschedule" target="_blank" rel="noopener noreferrer">原开源项目</a><a href="#top">回到顶部</a></div>
+    </div>
+  </footer>
+
+  <dialog id="imageDialog" aria-label="教程图片放大预览">
+    <button class="icon-btn dialog-close" id="dialogClose" type="button" aria-label="关闭图片预览"><svg class="icon"><use href="#i-close"/></svg></button>
+    <img class="dialog-image" id="dialogImage" alt="放大的教程图片">
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite">密码已复制</div>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var themeToggle = document.getElementById('themeToggle');
+      var savedTheme = null;
+      try { savedTheme = localStorage.getItem('shiguang-theme'); } catch (e) {}
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        root.classList.add('dark');
+      }
+      themeToggle.addEventListener('click', function () {
+        root.classList.toggle('dark');
+        try { localStorage.setItem('shiguang-theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+      });
+
+      var header = document.getElementById('siteHeader');
+      function updateHeader() { header.classList.toggle('scrolled', window.scrollY > 8); }
+      updateHeader();
+      window.addEventListener('scroll', updateHeader, { passive: true });
+
+      var dialog = document.getElementById('imageDialog');
+      var dialogImage = document.getElementById('dialogImage');
+      document.querySelectorAll('.shot-button').forEach(function (button) {
+        button.addEventListener('click', function () {
+          dialogImage.src = button.getAttribute('data-full');
+          dialogImage.alt = button.querySelector('img').alt;
+          if (typeof dialog.showModal === 'function') dialog.showModal();
+        });
+      });
+      document.getElementById('dialogClose').addEventListener('click', function () { dialog.close(); });
+      dialog.addEventListener('click', function (event) {
+        if (event.target === dialog) dialog.close();
+      });
+
+      var toast = document.getElementById('toast');
+      var toastTimer;
+      document.querySelectorAll('[data-copy]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var text = button.getAttribute('data-copy');
+          function showCopied() {
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+          }
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(showCopied).catch(function () { showCopied(); });
+          } else {
+            var input = document.createElement('textarea');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            input.remove();
+            showCopied();
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
